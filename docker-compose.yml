@@ -1,0 +1,40 @@
+# Hạ tầng tối giản cho đồ án: ThingsBoard CE (kèm PostgreSQL) + backend + frontend.
+#   cp .env.example .env && docker compose up -d
+# Lần đầu ThingsBoard tự cài schema + dữ liệu demo (mất 1-3 phút), sau đó mở
+# http://localhost:8080 (tenant@thingsboard.org / tenant).
+services:
+  thingsboard:
+    image: thingsboard/tb-postgres:3.9.1
+    restart: unless-stopped
+    ports:
+      - "8080:9090"   # Web UI + REST API
+      - "1883:1883"   # MQTT cho thiết bị / device-sim
+    environment:
+      TB_QUEUE_TYPE: in-memory
+    volumes:
+      - tb-data:/data
+      - tb-logs:/var/log/thingsboard
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      THINGSBOARD_URL: http://thingsboard:9090
+      THINGSBOARD_USERNAME: ${TB_TENANT_USER:-tenant@thingsboard.org}
+      THINGSBOARD_PASSWORD: ${TB_TENANT_PASSWORD:-tenant}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - thingsboard
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  tb-data:
+  tb-logs:

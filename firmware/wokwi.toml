@@ -1,0 +1,5 @@
+# Wokwi cho VS Code: chạy firmware đã build bằng PlatformIO (`pio run`) trên mạch diagram.json.
+[wokwi]
+version = 1
+firmware = ".pio/build/esp32dev/firmware.bin"
+elf = ".pio/build/esp32dev/firmware.elf"

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>FloodSense HCM – Mô phỏng hoạt động của trạm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --bg:#f4f6f9; --card:#fff; --ink:#1d2733; --muted:#6b7684; --line:#dde3ea;
+    --brand:#1f5fa8; --safe:#2e9e44; --alert:#e2b300; --warn:#f07c12; --crit:#d22d2d; --off:#9aa3ad;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:"Segoe UI",Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:14px 22px; background:var(--brand); color:#fff; display:flex; align-items:baseline; gap:14px; }
+  header h1 { margin:0; font-size:20px; }
+  header span { opacity:.85; font-size:14px; }
+  main { display:grid; grid-template-columns: minmax(0,1.35fr) minmax(320px,1fr); gap:16px; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .card h2 { margin:0 0 10px; font-size:15px; text-transform:uppercase; letter-spacing:.04em; color:var(--brand); }
+  svg { width:100%; height:auto; display:block; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:6px 0; }
+  label { font-size:13px; color:var(--muted); }
+  input[type=range] { width:160px; }
+  button { border:1px solid var(--line); background:#fff; border-radius:7px; padding:6px 11px; cursor:pointer; font-size:13px; }
+  button:hover { background:#eef3f9; }
+  button.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
+  select { padding:5px; border-radius:6px; border:1px solid var(--line); }
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px; }
+  .stat { background:#f7f9fb; border:1px solid var(--line); border-radius:8px; padding:8px; }
+  .stat b { display:block; font-size:18px; }
+  .stat small { color:var(--muted); font-size:12px; }
+  .badge { display:inline-block; padding:3px 10px; border-radius:20px; color:#fff; font-weight:600; font-size:13px; }
+  .pipe { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; position:relative; margin-top:6px; }
+  .node { text-align:center; padding:8px 4px; border:1px solid var(--line); border-radius:8px; background:#f7f9fb; font-size:12.5px; position:relative; z-index:1; }
+  .node b { display:block; font-size:13.5px; }
+  .node.down { opacity:.45; }
+  .packet { position:absolute; top:20px; width:12px; height:12px; border-radius:50%; z-index:2; transition:left .9s linear, opacity .3s; }
+  .log { height:190px; overflow:auto; font-size:12.5px; font-family:Menlo,Consolas,monospace; background:#0f1720; color:#cfe3f5; border-radius:8px; padding:8px; }
+  .log div { margin-bottom:3px; }
+  .log .t { color:#7d93a8; }
+  .log .crit { color:#ff8a8a; } .log .ok { color:#8fe39b; } .log .warn { color:#ffd27a; }
+  .discord { background:#313338; color:#dbdee1; border-radius:8px; padding:10px; min-height:84px; font-size:13px; }
+  .discord .msg { border-left:4px solid var(--crit); background:#2b2d31; padding:6px 9px; border-radius:4px; margin-bottom:6px; }
+  .discord .msg.off { border-color:var(--off); }
+  .discord .msg.ok { border-color:var(--safe); }
+  .discord .who { color:#fff; font-weight:600; font-size:12.5px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .mapbox { position:relative; height:150px; border-radius:8px; overflow:hidden; background:
+      linear-gradient(135deg,#e8eef3 0%,#dfe8df 100%); border:1px solid var(--line); }
+  .mapbox .river { position:absolute; left:-20px; top:60px; width:140%; height:18px; background:#b9d3ea; transform:rotate(-14deg); }
+  .mapbox .road { position:absolute; background:#fff; }
+  .mapdot { position:absolute; left:52%; top:42%; width:20px; height:20px; border-radius:50%; border:3px solid #fff; box-shadow:0 0 0 2px rgba(0,0,0,.15); transition:background .4s; }
+  .mapdot.pulse { animation:pulse 1s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(210,45,45,.7);} 100%{box-shadow:0 0 0 16px rgba(210,45,45,0);} }
+  .maplabel { position:absolute; left:52%; top:42%; transform:translate(26px,-2px); font-size:12px; background:#fffd; padding:1px 5px; border-radius:4px; }
+  canvas { width:100%; height:150px; display:block; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .legend { font-size:12px; color:var(--muted); margin-top:6px; line-height:1.6; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin:0 4px 0 10px; vertical-align:middle; }
+  .steps { font-size:13px; line-height:1.55; padding-left:18px; margin:6px 0 0; }
+  @media (max-width:1000px){ main { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>FloodSense HCM – Trạm VN-HCM-017 (Q. Bình Thạnh)</h1>
+  <span>Mô phỏng cách trạm đo, cảnh báo tại chỗ và gửi dữ liệu lên hệ thống</span>
+</header>
+
+<main>
+<!-- ======================= CỘT TRÁI: TRẠM ======================= -->
+<section>
+  <div class="card">
+    <h2>Trạm tại hiện trường</h2>
+    <svg id="scene" viewBox="0 -20 760 560">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#dfeaf5"/><stop offset="1" stop-color="#f7fafc"/>
+        </linearGradient>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+          <path d="M0,0 L8,4 L0,8 z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect id="skyRect" x="0" y="-20" width="760" height="520" fill="url(#sky)"/>
+      <g id="rain"></g>
+
+      <!-- mặt đường + miệng cống -->
+      <rect x="0" y="500" width="760" height="40" fill="#cfd3d8"/>
+      <line x1="0" y1="500" x2="760" y2="500" stroke="#333" stroke-width="2"/>
+      <rect x="40" y="500" width="70" height="22" fill="#444"/>
+      <g stroke="#ddd" stroke-width="3"><line x1="52" y1="503" x2="52" y2="519"/><line x1="66" y1="503" x2="66" y2="519"/><line x1="80" y1="503" x2="80" y2="519"/><line x1="94" y1="503" x2="94" y2="519"/></g>
+      <text x="75" y="536" font-size="12" text-anchor="middle" fill="#333">miệng cống</text>
+
+      <!-- cột đèn -->
+      <rect x="140" y="40" width="16" height="460" fill="#b9bec4" stroke="#555"/>
+      <!-- phễu đo mưa -->
+      <polygon points="116,0 180,0 162,30 134,30" fill="#eef1f4" stroke="#333" stroke-width="2"/>
+      <rect x="134" y="30" width="28" height="10" fill="#cfd5db" stroke="#333"/>
+      <g id="bucket" transform="translate(148,22)">
+        <path d="M-9,0 L0,-6 L9,0" stroke="#1f5fa8" stroke-width="2.5" fill="none"/>
+      </g>
+      <text x="190" y="14" font-size="12" fill="#333" id="tipText">gáo lật: 0 lần</text>
+
+      <!-- tấm pin mặt trời -->
+      <polygon points="185,62 385,22 388,36 188,76" fill="#16215e" stroke="#0b1030"/>
+      <line x1="230" y1="70" x2="230" y2="80" stroke="#333" stroke-width="2"/>
+      <line x1="345" y1="47" x2="345" y2="80" stroke="#333" stroke-width="2"/>
+
+      <!-- đai ôm cột + hộp IP65 -->
+      <rect x="136" y="92" width="24" height="9" fill="none" stroke="#333" stroke-width="2"/>
+      <rect x="136" y="150" width="24" height="9" fill="none" stroke="#333" stroke-width="2"/>
+      <line x1="160" y1="96" x2="190" y2="96" stroke="#999" stroke-width="4"/>
+      <line x1="160" y1="154" x2="190" y2="154" stroke="#999" stroke-width="4"/>
+      <rect x="190" y="80" width="190" height="95" rx="3" fill="#f3f4f5" stroke="#111" stroke-width="3"/>
+      <!-- LCD -->
+      <rect x="208" y="90" width="132" height="38" fill="#bfeec0" stroke="#333"/>
+      <text id="lcd1" x="214" y="105" font-family="Menlo,Consolas,monospace" font-size="12" fill="#123">H=  0.0cm SAFE</text>
+      <text id="lcd2" x="214" y="121" font-family="Menlo,Consolas,monospace" font-size="12" fill="#123">R=  0mm   WiFi</text>
+      <!-- 3 đèn -->
+      <circle id="ledG" cx="222" cy="152" r="9" stroke="#222"/>
+      <circle id="ledY" cx="248" cy="152" r="9" stroke="#222"/>
+      <circle id="ledR" cx="274" cy="152" r="9" stroke="#222"/>
+      <!-- còi -->
+      <circle cx="350" cy="150" r="15" fill="#ddd" stroke="#333"/>
+      <circle cx="350" cy="150" r="8" fill="none" stroke="#333"/>
+      <circle cx="350" cy="150" r="3" fill="#333"/>
+      <g id="sirenWaves" fill="none" stroke="#d22d2d" stroke-width="2.5" opacity="0">
+        <path d="M372,136 a20,20 0 0 1 0,28"/><path d="M382,128 a32,32 0 0 1 0,44"/><path d="M392,120 a44,44 0 0 1 0,60"/>
+      </g>
+      <text id="muteIcon" x="342" y="128" font-size="13" opacity="0">🔇</text>
+      <!-- ốc siết cáp -->
+      <g fill="#444"><rect x="212" y="175" width="10" height="7"/><rect x="242" y="175" width="10" height="7"/><rect x="272" y="175" width="10" height="7"/><rect x="302" y="175" width="10" height="7"/></g>
+      <!-- WiFi -->
+      <g id="wifiIcon" transform="translate(372,72)">
+        <path d="M-10,0 a14,14 0 0 1 20,0" fill="none" stroke="#1f5fa8" stroke-width="2.4"/>
+        <path d="M-6,4 a8,8 0 0 1 12,0" fill="none" stroke="#1f5fa8" stroke-width="2.4"/>
+        <circle cx="0" cy="8" r="2" fill="#1f5fa8"/>
+        <line id="wifiX" x1="-11" y1="-6" x2="11" y2="12" stroke="#d22d2d" stroke-width="3" opacity="0"/>
+      </g>
+
+      <!-- cánh tay + cảm biến siêu âm -->
+      <line x1="156" y1="186" x2="574" y2="186" stroke="#999" stroke-width="5"/>
+      <path d="M307,182 C307,215 450,190 556,186" fill="none" stroke="#111" stroke-width="2"/>
+      <rect x="546" y="180" width="26" height="16" fill="#aaa" stroke="#333"/>
+      <rect x="551" y="196" width="16" height="5" fill="#777"/>
+
+      <!-- tia siêu âm -->
+      <line id="beamL" x1="553" y1="201" x2="545" y2="480" stroke="#e07b22" stroke-dasharray="5 4" stroke-width="1.5"/>
+      <line id="beamR" x1="565" y1="201" x2="573" y2="480" stroke="#e07b22" stroke-dasharray="5 4" stroke-width="1.5"/>
+      <path id="pulse" d="M546,0 q13,7 26,0" fill="none" stroke="#e07b22" stroke-width="2.5"/>
+
+      <!-- nước -->
+      <g id="waterG">
+        <rect id="water" x="0" y="500" width="760" height="0" fill="#7fa8e8" opacity="0.55"/>
+        <path id="waves" d="" fill="none" stroke="#3d6fd1" stroke-width="2"/>
+      </g>
+
+      <!-- kích thước -->
+      <line x1="580" y1="200" x2="660" y2="200" stroke="#555" stroke-width="1"/>
+      <line x1="640" y1="202" x2="640" y2="498" stroke="#333" marker-start="url(#arr)" marker-end="url(#arr)"/>
+      <text x="648" y="350" font-size="13" fill="#333">200 cm</text>
+      <line id="dLine" x1="604" y1="202" x2="604" y2="498" stroke="#e07b22" stroke-width="1.5" marker-start="url(#arr)" marker-end="url(#arr)"/>
+      <text id="dText" x="590" y="350" font-size="13" fill="#b4560c" text-anchor="end" font-style="italic">d</text>
+      <line id="hLine" x1="700" y1="498" x2="700" y2="498" stroke="#1d3fa0" stroke-width="1.8" marker-start="url(#arr)" marker-end="url(#arr)"/>
+      <text id="hText" x="708" y="495" font-size="13" fill="#1d3fa0" font-weight="bold">H</text>
+
+      <!-- thước mức ngưỡng -->
+      <g font-size="11" fill="#666">
+        <line x1="420" y1="470" x2="760" y2="470" stroke="#e2b300" stroke-dasharray="3 5"/><text x="424" y="467">20 cm</text>
+        <line x1="420" y1="447.5" x2="760" y2="447.5" stroke="#f07c12" stroke-dasharray="3 5"/><text x="424" y="444">35 cm</text>
+        <line x1="420" y1="425" x2="760" y2="425" stroke="#d22d2d" stroke-dasharray="3 5"/><text x="424" y="422">50 cm</text>
+      </g>
+    </svg>
+
+    <div class="stats">
+      <div class="stat"><small>Mức ngập</small><b><span id="lvlBadge" class="badge">SAFE</span></b></div>
+      <div class="stat"><small>Mực nước H = 200 − d</small><b id="hVal">0.0 cm</b></div>
+      <div class="stat"><small>Khoảng cách đo d</small><b id="dVal">200.0 cm</b></div>
+      <div class="stat"><small>Cường độ mưa</small><b id="rVal">0 mm/h</b></div>
+      <div class="stat"><small>Lượng mưa tích lũy</small><b id="rainTot">0.0 mm</b></div>
+      <div class="stat"><small>Gửi tiếp sau</small><b id="nextSend">–</b></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Đường đi của dữ liệu</h2>
+    <div class="pipe" id="pipe">
+      <div class="node" id="nStation"><b>Trạm ESP32</b><span id="bufInfo">bộ đệm: 0</span></div>
+      <div class="node" id="nMqtt"><b>MQTT</b>WiFi / 4G</div>
+      <div class="node" id="nTb"><b>ThingsBoard</b>lưu + rule chain</div>
+      <div class="node" id="nWeb"><b>Web + Discord</b>bản đồ, cảnh báo</div>
+    </div>
+    <div class="row" style="margin-top:10px;font-size:13px;color:var(--muted)">
+      Bản tin đã gửi: <b id="sentCnt" style="color:var(--ink)">0</b> &nbsp;·&nbsp;
+      ThingsBoard đã nhận: <b id="recvCnt" style="color:var(--ink)">0</b>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+</section>
+
+<!-- ======================= CỘT PHẢI ======================= -->
+<section>
+  <div class="card">
+    <h2>Điều khiển mô phỏng</h2>
+    <div class="row">
+      <button class="primary" id="playBtn">⏸ Tạm dừng</button>
+      <label>Kịch bản</label>
+      <select id="scenario">
+        <option value="manual">Tự chỉnh mưa / triều</option>
+        <option value="storm" selected>Mưa lớn chiều (3 giờ)</option>
+        <option value="tide">Mưa trùng triều cường</option>
+      </select>
+      <button id="resetBtn">↺ Chạy lại</button>
+    </div>
+    <div class="row">
+      <label>Tốc độ</label>
+      <select id="speed">
+        <option value="30">×30</option><option value="60" selected>×60 (1 giây = 1 phút)</option><option value="120">×120</option>
+      </select>
+      <label>Giờ mô phỏng: <b id="clock" style="color:var(--ink)">16:00:00</b></label>
+    </div>
+    <div class="row">
+      <label style="width:110px">Mưa (mm/h)</label>
+      <input type="range" id="rainSl" min="0" max="120" value="0"><b id="rainSlV">0</b>
+    </div>
+    <div class="row">
+      <label style="width:110px">Triều (m)</label>
+      <input type="range" id="tideSl" min="0" max="200" value="80"><b id="tideSlV">0.80</b>
+      <small style="color:var(--muted)">(trên 1,2 m nước tràn ngược qua cống)</small>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="wifiChk" checked> Có mạng WiFi</label>
+    </div>
+    <h2 style="margin-top:12px">Trang quản trị (lệnh từ xa)</h2>
+    <div class="row">
+      <button id="testBtn">🔔 Thử còi</button>
+      <button id="muteBtn">🔇 Tắt còi</button>
+      <label>Ngưỡng CRITICAL</label>
+      <select id="critSel"><option>45</option><option selected>50</option><option>55</option></select>
+      <span style="font-size:12px;color:var(--muted)">cm</span>
+    </div>
+    <div style="font-size:12.5px;color:var(--muted)" id="cmdResult">Lệnh chỉ tới được trạm khi trạm có mạng.</div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Web cho người dân</h2>
+    <div class="grid2">
+      <div>
+        <div class="mapbox">
+          <div class="river"></div>
+          <div class="road" style="left:0;top:95px;width:100%;height:6px"></div>
+          <div class="road" style="left:45%;top:0;width:6px;height:100%"></div>
+          <div class="mapdot" id="mapDot"></div>
+          <div class="maplabel" id="mapLbl">VN-HCM-017</div>
+        </div>
+        <div class="legend"><i style="background:var(--safe)"></i>An toàn<i style="background:var(--alert)"></i>Chú ý<i style="background:var(--warn)"></i>Nguy hiểm<br><i style="background:var(--crit)"></i>Ngập nặng<i style="background:var(--off)"></i>Mất kết nối</div>
+      </div>
+      <div>
+        <canvas id="chart" width="520" height="300"></canvas>
+        <div class="legend">Mực nước ThingsBoard nhận được (3 giờ gần nhất)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Kênh Discord #canh-bao-ngap</h2>
+    <div class="discord" id="discord"><span style="opacity:.6">Chưa có cảnh báo.</span></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Trạm hoạt động thế nào?</h2>
+    <ol class="steps">
+      <li>Cảm biến siêu âm đo khoảng cách <i>d</i> tới mặt nước; mực nước <b>H = 200 − d</b>.</li>
+      <li>Phễu đo mưa: mỗi lần gáo lật = 0,2 mm mưa.</li>
+      <li>Trạm tự phân loại 4 mức (20 / 35 / 50 cm) và bật đèn, còi, màn hình <b>ngay tại chỗ</b>, kể cả khi mất mạng.</li>
+      <li>Nước càng cao gửi càng dày: 60 s → 10 s → 5 s → 2 s; đổi mức là gửi ngay.</li>
+      <li>Mất mạng: trạm giữ dữ liệu trong bộ đệm, có mạng lại thì gửi bù.</li>
+      <li>ThingsBoard tạo cảnh báo khi H ≥ ngưỡng CRITICAL, gửi <b>đúng 1 tin</b> Discord mỗi lần ngập; im lặng quá 2 phút thì báo trạm mất kết nối.</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<script>
+// ===================== THAM SỐ =====================
+const SCALE = 1.5;             // px trên 1 cm
+const GROUND = 500, SENSOR_Y = GROUND - 200 * SCALE;
+const LEVELS = ["SAFE", "ALERT", "WARNING", "CRITICAL"];
+const COLORS = { SAFE:"#2e9e44", ALERT:"#e2b300", WARNING:"#f07c12", CRITICAL:"#d22d2d", OFFLINE:"#9aa3ad" };
+const INTERVAL = { SAFE:60, ALERT:10, WARNING:5, CRITICAL:2 };   // giây
+const HYST = 3;
+const K_RAIN = 0.0375, K_TIDE = 2.5, K_DRAIN = 0.05, TIDE_T0 = 1.2; // mô hình bể chứa (theo phút)
+const $ = id => document.getElementById(id);
+
+// ===================== TRẠNG THÁI =====================
+let S;
+function resetState() {
+  S = {
+    t: 16 * 3600, t0: 16 * 3600, running: true,
+    H: 0, rain: 0, tide: 0.8, rainAcc: 0, tips: 0, tipFrac: 0,
+    samples: [], dMed: 200, Hmeas: 0,
+    level: "SAFE", lastSend: -1e9, sent: 0, recv: 0, buffer: [],
+    muted: false, testUntil: 0,
+    tbLastRecv: null, tbLastH: 0, alarmCrit: false, alarmOff: false, tbHist: [],
+    crit: +$("critSel").value,
+  };
+  $("log").innerHTML = ""; $("discord").innerHTML = '<span style="opacity:.6">Chưa có cảnh báo.</span>';
+  log("Trạm khởi động, kết nối ThingsBoard thành công.", "ok");
+}
+
+// ===================== KỊCH BẢN =====================
+function scenarioInputs(minutes) {
+  const sc = $("scenario").value;
+  if (sc === "manual") return null;
+  // mưa: tăng dần tới đỉnh ở phút 45, giữ tới phút 90, tắt dần tới phút 150
+  let r = 0;
+  if (minutes < 10) r = 0;
+  else if (minutes < 45) r = 95 * (minutes - 10) / 35;
+  else if (minutes < 90) r = 95 - 10 * Math.sin((minutes - 45) / 6);
+  else if (minutes < 150) r = 85 * (1 - (minutes - 90) / 60);
+  r = Math.max(0, r);
+  let tide = 0.8;
+  if (sc === "tide") { tide = 1.05 + 0.6 * Math.sin((minutes - 20) / 70 * Math.PI / 2); r *= 0.65; }
+  return { rain: r, tide };
+}
+
+// ===================== NHẬT KÝ =====================
+function clock(t) {
+  const s = Math.floor(t) % 86400, h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, ss = s % 60;
+  return [h, m, ss].map(x => String(x).padStart(2, "0")).join(":");
+}
+function log(msg, cls = "") {
+  const d = document.createElement("div");
+  d.innerHTML = `<span class="t">[${clock(S.t)}]</span> <span class="${cls}">${msg}</span>`;
+  $("log").appendChild(d); $("log").scrollTop = 1e9;
+}
+function discord(html, cls = "") {
+  const box = $("discord");
+  if (box.querySelector("span")) box.innerHTML = "";
+  const d = document.createElement("div");
+  d.className = "msg " + cls;
+  d.innerHTML = `<div class="who">FloodSense Bot · ${clock(S.t)}</div>${html}`;
+  box.prepend(d);
+}
+
+// ===================== THIẾT BỊ =====================
+function classify(H, cur) {
+  const th = [20, 35, S.crit];
+  let lv = 0;
+  for (let i = 0; i < 3; i++) if (H >= th[i]) lv = i + 1;
+  const ci = LEVELS.indexOf(cur);
+  if (lv < ci && H >= th[ci - 1] - HYST) lv = ci;   // hysteresis khi nước rút
+  return LEVELS[lv];
+}
+function measure() {
+  const trueD = 200 - S.H;
+  let d = trueD + (Math.random() - 0.5);              // nhiễu ±0,5 cm
+  if (Math.random() < 0.02) d = trueD - 30 - Math.random() * 40;  // rác trôi qua → mẫu sai
+  S.samples.push(d); if (S.samples.length > 5) S.samples.shift();
+  const sorted = [...S.samples].sort((a, b) => a - b);
+  S.dMed = sorted[Math.floor(sorted.length / 2)];
+  S.Hmeas = Math.max(0, 200 - S.dMed);
+}
+function sendTelemetry(reason) {
+  const pkt = { t: S.t, H: S.Hmeas, level: S.level, rain: +S.rain.toFixed(1) };
+  S.sent++; S.lastSend = S.t;
+  if ($("wifiChk").checked) {
+    if (S.buffer.length) {
+      const n = S.buffer.length;
+      S.buffer.forEach(p => tbReceive(p, true)); S.buffer = [];
+      log(`Có mạng lại → gửi bù ${n} bản tin trong bộ đệm.`, "ok");
+    }
+    tbReceive(pkt);
+    animatePacket(COLORS[S.level]);
+    if (reason) log(`Gửi ngay (${reason}): H=${pkt.H.toFixed(1)} cm, ${pkt.level}.`);
+  } else {
+    S.buffer.push(pkt);
+    if (S.buffer.length === 1) log("Mất mạng: lưu bản tin vào bộ đệm, đèn/còi vẫn chạy tại chỗ.", "warn");
+  }
+}
+
+// ===================== THINGSBOARD =====================
+function tbReceive(p, backfill = false) {
+  S.recv++; S.tbLastRecv = S.t; S.tbLastH = p.H;
+  S.tbHist.push({ t: p.t, H: p.H });
+  if (S.alarmOff) {
+    S.alarmOff = false;
+    log("ThingsBoard: trạm hoạt động lại, xóa cảnh báo mất kết nối.", "ok");
+    discord("✅ <b>VN-HCM-017</b> đã kết nối lại.", "ok");
+  }
+  if (!S.alarmCrit && p.H >= S.crit) {
+    S.alarmCrit = true;
+    log(`ThingsBoard: tạo cảnh báo NGẬP NGHIÊM TRỌNG (H=${p.H.toFixed(1)} cm).`, "crit");
+    discord(`🚨 <b>NGẬP NGHIÊM TRỌNG – VN-HCM-017</b><br>Mực nước <b>${p.H.toFixed(1)} cm</b> (ngưỡng ${S.crit}) – Q. Bình Thạnh<br>Mưa ${p.rain.toFixed(0)} mm/h`);
+  } else if (S.alarmCrit && p.H < S.crit - HYST) {
+    S.alarmCrit = false;
+    log(`ThingsBoard: nước rút (H=${p.H.toFixed(1)} cm), xóa cảnh báo.`, "ok");
+    discord(`✅ <b>VN-HCM-017</b> hết ngập nặng. Mực nước ${p.H.toFixed(1)} cm.`, "ok");
+  }
+}
+function tbCheckInactivity() {
+  if (S.tbLastRecv === null) return;
+  if (!S.alarmOff && S.t - S.tbLastRecv > 120) {
+    S.alarmOff = true;
+    log("ThingsBoard: quá 2 phút không có dữ liệu → cảnh báo TRẠM MẤT KẾT NỐI.", "crit");
+    discord("⚠️ <b>VN-HCM-017</b> mất kết nối quá 2 phút – cần kiểm tra trạm.", "off");
+  }
+}
+
+// ===================== MÔ PHỎNG =====================
+function stepSim(dt) {   // dt giây mô phỏng
+  const sc = scenarioInputs((S.t - S.t0) / 60);
+  if (sc) { S.rain = sc.rain; S.tide = sc.tide; $("rainSl").value = S.rain; $("tideSl").value = S.tide * 100; }
+  else { S.rain = +$("rainSl").value; S.tide = $("tideSl").value / 100; }
+
+  const dtm = dt / 60;
+  const dH = K_RAIN * S.rain + K_TIDE * Math.max(0, S.tide - TIDE_T0) - K_DRAIN * S.H;
+  S.H = Math.max(0, S.H + dH * dtm);
+
+  // gáo mưa
+  const mm = S.rain * dt / 3600;
+  S.rainAcc += mm; S.tipFrac += mm;
+  while (S.tipFrac >= 0.2) { S.tipFrac -= 0.2; S.tips++; tipAnim(); }
+
+  S.t += dt;
+}
+
+let lastMeasure = 0;
+function deviceTick() {
+  measure();
+  const newLv = classify(S.Hmeas, S.level);
+  if (newLv !== S.level) {
+    const up = LEVELS.indexOf(newLv) > LEVELS.indexOf(S.level);
+    log(`Trạm đổi mức: ${S.level} → <b>${newLv}</b> (H=${S.Hmeas.toFixed(1)} cm)`, up ? "crit" : "ok");
+    if (newLv !== "CRITICAL") S.muted = false;
+    S.level = newLv;
+    sendTelemetry("đổi mức");
+  } else if (S.t - S.lastSend >= INTERVAL[S.level]) {
+    sendTelemetry();
+  }
+  tbCheckInactivity();
+}
+
+// ===================== VẼ =====================
+const rainG = $("rain");
+const drops = Array.from({ length: 140 }, () => {
+  const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("stroke", "#5b7fbf"); l.setAttribute("stroke-width", "1.3"); l.setAttribute("opacity", ".7");
+  rainG.appendChild(l);
+  return { el: l, x: Math.random() * 760, y: Math.random() * 520 - 20, v: 6 + Math.random() * 4 };
+});
+function drawRain() {
+  const n = Math.round(drops.length * Math.min(1, S.rain / 100));
+  const waterY = GROUND - S.H * SCALE;
+  drops.forEach((d, i) => {
+    if (i >= n) { d.el.setAttribute("visibility", "hidden"); return; }
+    d.el.setAttribute("visibility", "visible");
+    d.y += d.v; d.x -= 1.2;
+    if (d.y > waterY || d.x < 0) { d.y = -20 - Math.random() * 40; d.x = Math.random() * 800; }
+    d.el.setAttribute("x1", d.x); d.el.setAttribute("y1", d.y);
+    d.el.setAttribute("x2", d.x + 2.5); d.el.setAttribute("y2", d.y + 11);
+  });
+  $("skyRect").setAttribute("opacity", S.rain > 30 ? 0.65 : 1);
+}
+let tipping = 0;
+function tipAnim() { tipping = 1; }
+
+let pulseT = 0, blink = 0;
+function drawScene(dtReal) {
+  const waterY = GROUND - S.H * SCALE;
+  $("water").setAttribute("y", waterY); $("water").setAttribute("height", S.H * SCALE);
+  let w = "";
+  if (S.H > 0.5) { for (let x = 0; x < 760; x += 40) w += `M${x},${waterY} q10,-4 20,0 q10,4 20,0 `; }
+  $("waves").setAttribute("d", w);
+  ["beamL", "beamR"].forEach(id => $(id).setAttribute("y2", waterY));
+  $("dLine").setAttribute("y2", waterY - 2);
+  $("dText").setAttribute("y", (SENSOR_Y + waterY) / 2);
+  $("hLine").setAttribute("y1", waterY + 2);
+  $("hLine").setAttribute("visibility", S.H > 3 ? "visible" : "hidden");
+  $("hText").setAttribute("y", Math.min(495, (waterY + GROUND) / 2 + 4));
+
+  // xung siêu âm đi xuống rồi về
+  pulseT = (pulseT + dtReal / 0.7) % 1;
+  const span = waterY - 201;
+  const y = 201 + span * (pulseT < 0.5 ? pulseT * 2 : 2 - pulseT * 2);
+  const wdt = 26 + (y - 201) * 0.06;
+  $("pulse").setAttribute("d", `M${559 - wdt / 2},${y} q${wdt / 2},${pulseT < .5 ? 7 : -7} ${wdt},0`);
+
+  // gáo lật
+  tipping = Math.max(0, tipping - dtReal * 3);
+  $("bucket").setAttribute("transform", `translate(148,22) rotate(${tipping > 0 ? (S.tips % 2 ? 25 : -25) * tipping : 0})`);
+  $("tipText").textContent = `gáo lật: ${S.tips} lần`;
+
+  // đèn
+  blink += dtReal;
+  const lv = S.level, on = Math.floor(blink * 2.5) % 2 === 0;
+  const testing = performance.now() < S.testUntil;
+  $("ledG").setAttribute("fill", lv === "SAFE" && !testing ? "#39d353" : "#2a4a30");
+  $("ledY").setAttribute("fill", (lv === "ALERT" || (lv === "WARNING" && on)) && !testing ? "#ffd400" : "#5a5320");
+  $("ledR").setAttribute("fill", lv === "CRITICAL" || testing ? "#ff3030" : "#5a2222");
+  const siren = testing || (lv === "CRITICAL" && !S.muted);
+  $("sirenWaves").setAttribute("opacity", siren ? (on ? 1 : 0.35) : 0);
+  $("muteIcon").setAttribute("opacity", lv === "CRITICAL" && S.muted && !testing ? 1 : 0);
+
+  // LCD
+  const short = { SAFE: "SAFE", ALERT: "ALRT", WARNING: "WARN", CRITICAL: "CRIT" }[lv];
+  $("lcd1").textContent = `H=${S.Hmeas.toFixed(1).padStart(5)}cm ${short}`;
+  $("lcd2").textContent = `R=${String(Math.round(S.rainAcc)).padStart(3)}mm  ${$("wifiChk").checked ? "WiFi" : "NoNet"}`;
+  $("wifiX").setAttribute("opacity", $("wifiChk").checked ? 0 : 1);
+  drawRain();
+}
+
+function drawPanel() {
+  $("clock").textContent = clock(S.t);
+  const b = $("lvlBadge"); b.textContent = S.level; b.style.background = COLORS[S.level];
+  $("hVal").textContent = S.Hmeas.toFixed(1) + " cm";
+  $("dVal").textContent = S.dMed.toFixed(1) + " cm";
+  $("rVal").textContent = Math.round(S.rain) + " mm/h";
+  $("rainTot").textContent = S.rainAcc.toFixed(1) + " mm";
+  $("nextSend").textContent = Math.max(0, INTERVAL[S.level] - (S.t - S.lastSend)).toFixed(0) + " s (chu kỳ " + INTERVAL[S.level] + " s)";
+  $("rainSlV").textContent = Math.round(S.rain);
+  $("tideSlV").textContent = S.tide.toFixed(2);
+  $("sentCnt").textContent = S.sent; $("recvCnt").textContent = S.recv;
+  $("bufInfo").textContent = "bộ đệm: " + S.buffer.length;
+  const online = $("wifiChk").checked;
+  $("nMqtt").classList.toggle("down", !online);
+
+  // bản đồ web: dựa trên dữ liệu ThingsBoard nhận được
+  const stale = S.tbLastRecv === null || S.t - S.tbLastRecv > 60;
+  const webLv = stale ? "OFFLINE" : classify(S.tbLastH, S.level);
+  const dot = $("mapDot");
+  dot.style.background = COLORS[webLv];
+  dot.classList.toggle("pulse", webLv === "CRITICAL");
+  $("mapLbl").textContent = stale ? "VN-HCM-017 · mất kết nối" : `VN-HCM-017 · ${S.tbLastH.toFixed(1)} cm`;
+  drawChart();
+}
+
+function drawChart() {
+  const c = $("chart"), g = c.getContext("2d"), W = c.width, Hh = c.height;
+  g.clearRect(0, 0, W, Hh);
+  const span = 3 * 3600, tEnd = Math.max(S.t, S.t0 + span), tStart = tEnd - span, maxH = 80;
+  const X = t => 40 + (t - tStart) / span * (W - 50), Y = h => Hh - 25 - h / maxH * (Hh - 40);
+  g.font = "18px sans-serif"; g.fillStyle = "#888";
+  [[20, "#e2b300"], [35, "#f07c12"], [S.crit, "#d22d2d"]].forEach(([h, col]) => {
+    g.strokeStyle = col; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(40, Y(h)); g.lineTo(W - 10, Y(h)); g.stroke();
+    g.fillText(h, 4, Y(h) + 6);
+  });
+  g.setLineDash([]); g.strokeStyle = "#ccc"; g.beginPath(); g.moveTo(40, Y(0)); g.lineTo(W - 10, Y(0)); g.stroke();
+  g.fillText(clock(tStart).slice(0, 5), 40, Hh - 4); g.fillText(clock(tEnd).slice(0, 5), W - 60, Hh - 4);
+  const pts = S.tbHist.filter(p => p.t >= tStart);
+  g.strokeStyle = "#1f5fa8"; g.lineWidth = 3; g.beginPath();
+  pts.forEach((p, i) => i ? g.lineTo(X(p.t), Y(p.H)) : g.moveTo(X(p.t), Y(p.H)));
+  g.stroke(); g.lineWidth = 1;
+}
+
+// gói tin chạy trên đường ống
+let lastPacketAnim = 0;
+function animatePacket(color) {
+  const now = performance.now();
+  if (now - lastPacketAnim < 350) return;
+  lastPacketAnim = now;
+  const pipe = $("pipe"), w = pipe.clientWidth;
+  const p = document.createElement("div");
+  p.className = "packet"; p.style.background = color; p.style.left = "8%";
+  pipe.appendChild(p);
+  requestAnimationFrame(() => requestAnimationFrame(() => { p.style.left = "88%"; }));
+  setTimeout(() => { p.style.opacity = 0; }, 900);
+  setTimeout(() => p.remove(), 1300);
+}
+
+// ===================== VÒNG LẶP =====================
+let prev = performance.now();
+function loop(now) {
+  const dtReal = Math.min(0.1, (now - prev) / 1000); prev = now;
+  if (S.running) {
+    let simDt = dtReal * +$("speed").value;
+    while (simDt > 0) {
+      const h = Math.min(1, simDt);
+      stepSim(h); simDt -= h;
+      if (S.t - lastMeasure >= 1) { lastMeasure = S.t; deviceTick(); }
+    }
+  }
+  drawScene(S.running ? dtReal : 0);
+  drawPanel();
+  requestAnimationFrame(loop);
+}
+
+// ===================== SỰ KIỆN =====================
+$("playBtn").onclick = () => { S.running = !S.running; $("playBtn").textContent = S.running ? "⏸ Tạm dừng" : "▶ Chạy"; };
+$("resetBtn").onclick = () => { resetState(); lastMeasure = S.t; };
+$("scenario").onchange = () => {
+  const manual = $("scenario").value === "manual";
+  $("rainSl").disabled = $("tideSl").disabled = !manual;
+  if (!manual) { resetState(); lastMeasure = S.t; }
+  log("Chọn kịch bản: " + $("scenario").selectedOptions[0].text);
+};
+$("wifiChk").onchange = () => {
+  if ($("wifiChk").checked) { log("WiFi có lại, trạm kết nối lại server.", "ok"); sendTelemetry(); }
+  else log("WiFi mất! Trạm vẫn đo và cảnh báo tại chỗ.", "warn");
+};
+function rpc(name, fn) {
+  if (!$("wifiChk").checked) { $("cmdResult").textContent = `${name}: trạm đang mất mạng, lệnh chưa tới được.`; log(`Web gửi lệnh "${name}" nhưng trạm offline.`, "warn"); return; }
+  animatePacket("#7a4fd1"); fn();
+}
+$("testBtn").onclick = () => rpc("Thử còi", () => {
+  S.testUntil = performance.now() + 3000;
+  $("cmdResult").textContent = "Thử còi: trạm phản hồi OK – còi và đèn đỏ bật 3 giây.";
+  log("Trang quản trị → trạm: THỬ CÒI. Trạm trả lời OK.");
+});
+$("muteBtn").onclick = () => rpc("Tắt còi", () => {
+  S.muted = true;
+  $("cmdResult").textContent = S.level === "CRITICAL" ? "Tắt còi: OK – đèn đỏ vẫn sáng, còi im." : "Tắt còi: OK (hiện còi không kêu).";
+  log("Trang quản trị → trạm: TẮT CÒI. Trạm trả lời OK.");
+});
+$("critSel").onchange = () => rpc("Đổi ngưỡng", () => {
+  S.crit = +$("critSel").value;
+  $("cmdResult").textContent = `Đổi ngưỡng CRITICAL = ${S.crit} cm: trạm áp dụng ngay.`;
+  log(`Trang quản trị → trạm: ngưỡng CRITICAL = ${S.crit} cm.`);
+});
+
+resetState(); lastMeasure = S.t;
+$("rainSl").disabled = $("tideSl").disabled = true;
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

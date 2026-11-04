@@ -1,0 +1,1102 @@
+[
+  {
+    "device_id": "VN-HCM-001",
+    "device_name": "Sensor Station 01 (Ngã ba Trường Chinh)",
+    "parent_id": "road-01",
+    "parent_name": "Đường Phan Huy Ích",
+    "parent_type": "ROAD",
+    "district": "Gò Vấp - Tân Bình",
+    "station_node": "Ngã ba Trường Chinh",
+    "segment_idx": 0,
+    "latitude": 10.82346,
+    "longitude": 106.62943,
+    "hydro": {
+      "k_rain": 0.51,
+      "k_drain": 1.15,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-002",
+    "device_name": "Sensor Station 02 (Đoạn giao Tây Thạnh)",
+    "parent_id": "road-01",
+    "parent_name": "Đường Phan Huy Ích",
+    "parent_type": "ROAD",
+    "district": "Gò Vấp - Tân Bình",
+    "station_node": "Đoạn giao Tây Thạnh",
+    "segment_idx": 1,
+    "latitude": 10.82712,
+    "longitude": 106.6315,
+    "hydro": {
+      "k_rain": 0.69,
+      "k_drain": 0.85,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-003",
+    "device_name": "Sensor Station 03 (Rốn ngập Cầu Hy Vọng)",
+    "parent_id": "road-01",
+    "parent_name": "Đường Phan Huy Ích",
+    "parent_type": "ROAD",
+    "district": "Gò Vấp - Tân Bình",
+    "station_node": "Rốn ngập Cầu Hy Vọng",
+    "segment_idx": 2,
+    "latitude": 10.83283,
+    "longitude": 106.63422,
+    "hydro": {
+      "k_rain": 0.82,
+      "k_drain": 0.63,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-004",
+    "device_name": "Sensor Station 04 (Đoạn giao Huỳnh Văn Nghệ)",
+    "parent_id": "road-01",
+    "parent_name": "Đường Phan Huy Ích",
+    "parent_type": "ROAD",
+    "district": "Gò Vấp - Tân Bình",
+    "station_node": "Đoạn giao Huỳnh Văn Nghệ",
+    "segment_idx": 3,
+    "latitude": 10.83905,
+    "longitude": 106.63708,
+    "hydro": {
+      "k_rain": 0.72,
+      "k_drain": 0.81,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-005",
+    "device_name": "Sensor Station 05 (Ngã ba Quang Trung)",
+    "parent_id": "road-01",
+    "parent_name": "Đường Phan Huy Ích",
+    "parent_type": "ROAD",
+    "district": "Gò Vấp - Tân Bình",
+    "station_node": "Ngã ba Quang Trung",
+    "segment_idx": 4,
+    "latitude": 10.84429,
+    "longitude": 106.64011,
+    "hydro": {
+      "k_rain": 0.53,
+      "k_drain": 1.11,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-006",
+    "device_name": "Sensor Station 06 (Cầu Tham Lương - Trường Chinh)",
+    "parent_id": "road-02",
+    "parent_name": "Đường Nguyễn Văn Quá",
+    "parent_type": "ROAD",
+    "district": "Quận 12",
+    "station_node": "Cầu Tham Lương - Trường Chinh",
+    "segment_idx": 0,
+    "latitude": 10.82783,
+    "longitude": 106.62674,
+    "hydro": {
+      "k_rain": 0.5,
+      "k_drain": 1.17,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-007",
+    "device_name": "Sensor Station 07 (Giao lộ Đông Hưng Thuận)",
+    "parent_id": "road-02",
+    "parent_name": "Đường Nguyễn Văn Quá",
+    "parent_type": "ROAD",
+    "district": "Quận 12",
+    "station_node": "Giao lộ Đông Hưng Thuận",
+    "segment_idx": 1,
+    "latitude": 10.83544,
+    "longitude": 106.62882,
+    "hydro": {
+      "k_rain": 0.68,
+      "k_drain": 0.88,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-008",
+    "device_name": "Sensor Station 08 (Rốn ngập Chợ Cầu)",
+    "parent_id": "road-02",
+    "parent_name": "Đường Nguyễn Văn Quá",
+    "parent_type": "ROAD",
+    "district": "Quận 12",
+    "station_node": "Rốn ngập Chợ Cầu",
+    "segment_idx": 2,
+    "latitude": 10.84278,
+    "longitude": 106.63091,
+    "hydro": {
+      "k_rain": 0.8,
+      "k_drain": 0.67,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-009",
+    "device_name": "Sensor Station 09 (Đoạn giao Tô Ký)",
+    "parent_id": "road-02",
+    "parent_name": "Đường Nguyễn Văn Quá",
+    "parent_type": "ROAD",
+    "district": "Quận 12",
+    "station_node": "Đoạn giao Tô Ký",
+    "segment_idx": 3,
+    "latitude": 10.84979,
+    "longitude": 106.63654,
+    "hydro": {
+      "k_rain": 0.7,
+      "k_drain": 0.83,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-010",
+    "device_name": "Sensor Station 10 (Ngã ba QL1A Tân Thới Hiệp)",
+    "parent_id": "road-02",
+    "parent_name": "Đường Nguyễn Văn Quá",
+    "parent_type": "ROAD",
+    "district": "Quận 12",
+    "station_node": "Ngã ba QL1A Tân Thới Hiệp",
+    "segment_idx": 4,
+    "latitude": 10.85647,
+    "longitude": 106.63941,
+    "hydro": {
+      "k_rain": 0.53,
+      "k_drain": 1.12,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-011",
+    "device_name": "Sensor Station 11 (Chân cầu Tân Thuận)",
+    "parent_id": "road-03",
+    "parent_name": "Đường Huỳnh Tấn Phát",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Tân Thuận",
+    "segment_idx": 0,
+    "latitude": 10.73791,
+    "longitude": 106.73034,
+    "hydro": {
+      "k_rain": 0.52,
+      "k_drain": 1.13,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-012",
+    "device_name": "Sensor Station 12 (Ngã tư Nguyễn Thị Thập)",
+    "parent_id": "road-03",
+    "parent_name": "Đường Huỳnh Tấn Phát",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Ngã tư Nguyễn Thị Thập",
+    "segment_idx": 1,
+    "latitude": 10.74141,
+    "longitude": 106.7298,
+    "hydro": {
+      "k_rain": 0.72,
+      "k_drain": 0.8,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-013",
+    "device_name": "Sensor Station 13 (Rốn ngập Trần Trọng Cung)",
+    "parent_id": "road-03",
+    "parent_name": "Đường Huỳnh Tấn Phát",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Rốn ngập Trần Trọng Cung",
+    "segment_idx": 2,
+    "latitude": 10.74375,
+    "longitude": 106.72954,
+    "hydro": {
+      "k_rain": 0.86,
+      "k_drain": 0.57,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-014",
+    "device_name": "Sensor Station 14 (Chân cầu Phú Mỹ)",
+    "parent_id": "road-03",
+    "parent_name": "Đường Huỳnh Tấn Phát",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Phú Mỹ",
+    "segment_idx": 3,
+    "latitude": 10.74832,
+    "longitude": 106.72887,
+    "hydro": {
+      "k_rain": 0.75,
+      "k_drain": 0.75,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-015",
+    "device_name": "Sensor Station 15 (Chân cầu Phú Xuân)",
+    "parent_id": "road-03",
+    "parent_name": "Đường Huỳnh Tấn Phát",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Phú Xuân",
+    "segment_idx": 4,
+    "latitude": 10.75265,
+    "longitude": 106.72855,
+    "hydro": {
+      "k_rain": 0.55,
+      "k_drain": 1.08,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-016",
+    "device_name": "Sensor Station 16 (Chân cầu Tân Thuận 2)",
+    "parent_id": "road-04",
+    "parent_name": "Đường Trần Xuân Soạn",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Tân Thuận 2",
+    "segment_idx": 0,
+    "latitude": 10.75101,
+    "longitude": 106.69107,
+    "hydro": {
+      "k_rain": 0.51,
+      "k_drain": 1.15,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-017",
+    "device_name": "Sensor Station 17 (Bờ kè Lâm Văn Bền)",
+    "parent_id": "road-04",
+    "parent_name": "Đường Trần Xuân Soạn",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Bờ kè Lâm Văn Bền",
+    "segment_idx": 1,
+    "latitude": 10.75172,
+    "longitude": 106.69849,
+    "hydro": {
+      "k_rain": 0.7,
+      "k_drain": 0.84,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-018",
+    "device_name": "Sensor Station 18 (Rốn ngập Cầu Kênh Tẻ)",
+    "parent_id": "road-04",
+    "parent_name": "Đường Trần Xuân Soạn",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Rốn ngập Cầu Kênh Tẻ",
+    "segment_idx": 2,
+    "latitude": 10.7518,
+    "longitude": 106.70669,
+    "hydro": {
+      "k_rain": 0.83,
+      "k_drain": 0.62,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-019",
+    "device_name": "Sensor Station 19 (Chân cầu Rạch Ông)",
+    "parent_id": "road-04",
+    "parent_name": "Đường Trần Xuân Soạn",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Rạch Ông",
+    "segment_idx": 3,
+    "latitude": 10.75189,
+    "longitude": 106.71725,
+    "hydro": {
+      "k_rain": 0.72,
+      "k_drain": 0.79,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-020",
+    "device_name": "Sensor Station 20 (Chân cầu Chữ Y)",
+    "parent_id": "road-04",
+    "parent_name": "Đường Trần Xuân Soạn",
+    "parent_type": "ROAD",
+    "district": "Quận 7",
+    "station_node": "Chân cầu Chữ Y",
+    "segment_idx": 4,
+    "latitude": 10.75749,
+    "longitude": 106.72229,
+    "hydro": {
+      "k_rain": 0.54,
+      "k_drain": 1.1,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-021",
+    "device_name": "Sensor Station 21 (Chân Cầu Sài Gòn)",
+    "parent_id": "road-05",
+    "parent_name": "Đường Nguyễn Hữu Cảnh",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Chân Cầu Sài Gòn",
+    "segment_idx": 0,
+    "latitude": 10.79802,
+    "longitude": 106.7245,
+    "hydro": {
+      "k_rain": 0.48,
+      "k_drain": 1.19,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-022",
+    "device_name": "Sensor Station 22 (The Manor - Landmark 81)",
+    "parent_id": "road-05",
+    "parent_name": "Đường Nguyễn Hữu Cảnh",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "The Manor - Landmark 81",
+    "segment_idx": 1,
+    "latitude": 10.78905,
+    "longitude": 106.71455,
+    "hydro": {
+      "k_rain": 0.65,
+      "k_drain": 0.93,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-023",
+    "device_name": "Sensor Station 23 (Rốn ngập Ung Văn Khiêm nối dài)",
+    "parent_id": "road-05",
+    "parent_name": "Đường Nguyễn Hữu Cảnh",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Rốn ngập Ung Văn Khiêm nối dài",
+    "segment_idx": 2,
+    "latitude": 10.78932,
+    "longitude": 106.71481,
+    "hydro": {
+      "k_rain": 0.76,
+      "k_drain": 0.73,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-024",
+    "device_name": "Sensor Station 24 (Hầm chui Nguyễn Hữu Cảnh)",
+    "parent_id": "road-05",
+    "parent_name": "Đường Nguyễn Hữu Cảnh",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Hầm chui Nguyễn Hữu Cảnh",
+    "segment_idx": 3,
+    "latitude": 10.78691,
+    "longitude": 106.70905,
+    "hydro": {
+      "k_rain": 0.67,
+      "k_drain": 0.89,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-025",
+    "device_name": "Sensor Station 25 (Chân Cầu Thủ Thiêm 1)",
+    "parent_id": "road-05",
+    "parent_name": "Đường Nguyễn Hữu Cảnh",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Chân Cầu Thủ Thiêm 1",
+    "segment_idx": 4,
+    "latitude": 10.7868,
+    "longitude": 106.70936,
+    "hydro": {
+      "k_rain": 0.51,
+      "k_drain": 1.16,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-026",
+    "device_name": "Sensor Station 26 (Ngã tư Hàng Xanh)",
+    "parent_id": "road-06",
+    "parent_name": "Đường Ung Văn Khiêm",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Ngã tư Hàng Xanh",
+    "segment_idx": 0,
+    "latitude": 10.80993,
+    "longitude": 106.71262,
+    "hydro": {
+      "k_rain": 0.48,
+      "k_drain": 1.21,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-027",
+    "device_name": "Sensor Station 27 (Đoạn Chu Văn An)",
+    "parent_id": "road-06",
+    "parent_name": "Đường Ung Văn Khiêm",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Đoạn Chu Văn An",
+    "segment_idx": 1,
+    "latitude": 10.80781,
+    "longitude": 106.7159,
+    "hydro": {
+      "k_rain": 0.63,
+      "k_drain": 0.95,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-028",
+    "device_name": "Sensor Station 28 (Trước Bến xe Miền Đông)",
+    "parent_id": "road-06",
+    "parent_name": "Đường Ung Văn Khiêm",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Trước Bến xe Miền Đông",
+    "segment_idx": 2,
+    "latitude": 10.8061,
+    "longitude": 106.7204,
+    "hydro": {
+      "k_rain": 0.74,
+      "k_drain": 0.77,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-029",
+    "device_name": "Sensor Station 29 (Chân Cầu Bình Triệu)",
+    "parent_id": "road-06",
+    "parent_name": "Đường Ung Văn Khiêm",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Chân Cầu Bình Triệu",
+    "segment_idx": 3,
+    "latitude": 10.80209,
+    "longitude": 106.7226,
+    "hydro": {
+      "k_rain": 0.65,
+      "k_drain": 0.91,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-030",
+    "device_name": "Sensor Station 30 (Ngã ba Đường D2 (Nguyễn Gia Trí))",
+    "parent_id": "road-06",
+    "parent_name": "Đường Ung Văn Khiêm",
+    "parent_type": "ROAD",
+    "district": "Bình Thạnh",
+    "station_node": "Ngã ba Đường D2 (Nguyễn Gia Trí)",
+    "segment_idx": 4,
+    "latitude": 10.79914,
+    "longitude": 106.72392,
+    "hydro": {
+      "k_rain": 0.5,
+      "k_drain": 1.17,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-031",
+    "device_name": "Sensor Station 31 (Cổng vào Xa Lộ Hà Nội - Thảo Điền)",
+    "parent_id": "zone-01",
+    "parent_name": "Khu vực Bán đảo Thảo Điền",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Cổng vào Xa Lộ Hà Nội - Thảo Điền",
+    "segment_idx": 0,
+    "latitude": 10.8015,
+    "longitude": 106.738,
+    "hydro": {
+      "k_rain": 0.5,
+      "k_drain": 1.17,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-032",
+    "device_name": "Sensor Station 32 (Giao lộ Xuân Thủy - Quốc Hương)",
+    "parent_id": "zone-01",
+    "parent_name": "Khu vực Bán đảo Thảo Điền",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Giao lộ Xuân Thủy - Quốc Hương",
+    "segment_idx": 1,
+    "latitude": 10.803,
+    "longitude": 106.7345,
+    "hydro": {
+      "k_rain": 0.68,
+      "k_drain": 0.87,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-033",
+    "device_name": "Sensor Station 33 (Rốn ngập trung tâm Quốc Hương)",
+    "parent_id": "zone-01",
+    "parent_name": "Khu vực Bán đảo Thảo Điền",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Rốn ngập trung tâm Quốc Hương",
+    "segment_idx": 2,
+    "latitude": 10.8035,
+    "longitude": 106.7321,
+    "hydro": {
+      "k_rain": 0.84,
+      "k_drain": 0.6,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-034",
+    "device_name": "Sensor Station 34 (Trường Quốc tế BIS Thảo Điền)",
+    "parent_id": "zone-01",
+    "parent_name": "Khu vực Bán đảo Thảo Điền",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Trường Quốc tế BIS Thảo Điền",
+    "segment_idx": 3,
+    "latitude": 10.8075,
+    "longitude": 106.73,
+    "hydro": {
+      "k_rain": 0.75,
+      "k_drain": 0.75,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-035",
+    "device_name": "Sensor Station 35 (Bờ kè Nguyễn Văn Hưởng)",
+    "parent_id": "zone-01",
+    "parent_name": "Khu vực Bán đảo Thảo Điền",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Bờ kè Nguyễn Văn Hưởng",
+    "segment_idx": 4,
+    "latitude": 10.812,
+    "longitude": 106.728,
+    "hydro": {
+      "k_rain": 0.62,
+      "k_drain": 0.97,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-036",
+    "device_name": "Sensor Station 36 (Ngã 5 Thủ Đức - Kha Vạn Cân)",
+    "parent_id": "zone-02",
+    "parent_name": "Khu vực Thung lũng Chợ Thủ Đức",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Ngã 5 Thủ Đức - Kha Vạn Cân",
+    "segment_idx": 0,
+    "latitude": 10.8495,
+    "longitude": 106.7625,
+    "hydro": {
+      "k_rain": 0.56,
+      "k_drain": 1.07,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-037",
+    "device_name": "Sensor Station 37 (Dốc Dương Văn Cam)",
+    "parent_id": "zone-02",
+    "parent_name": "Khu vực Thung lũng Chợ Thủ Đức",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Dốc Dương Văn Cam",
+    "segment_idx": 1,
+    "latitude": 10.851,
+    "longitude": 106.76,
+    "hydro": {
+      "k_rain": 0.78,
+      "k_drain": 0.7,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-038",
+    "device_name": "Sensor Station 38 (Rốn trũng Chợ Thủ Đức)",
+    "parent_id": "zone-02",
+    "parent_name": "Khu vực Thung lũng Chợ Thủ Đức",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Rốn trũng Chợ Thủ Đức",
+    "segment_idx": 2,
+    "latitude": 10.8525,
+    "longitude": 106.7582,
+    "hydro": {
+      "k_rain": 0.9,
+      "k_drain": 0.5,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-039",
+    "device_name": "Sensor Station 39 (Đặng Thị Rành - Tô Ngọc Vân)",
+    "parent_id": "zone-02",
+    "parent_name": "Khu vực Thung lũng Chợ Thủ Đức",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Đặng Thị Rành - Tô Ngọc Vân",
+    "segment_idx": 3,
+    "latitude": 10.8535,
+    "longitude": 106.7565,
+    "hydro": {
+      "k_rain": 0.72,
+      "k_drain": 0.8,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-040",
+    "device_name": "Sensor Station 40 (Cầu Ngang - Võ Văn Ngân)",
+    "parent_id": "zone-02",
+    "parent_name": "Khu vực Thung lũng Chợ Thủ Đức",
+    "parent_type": "ZONE",
+    "district": "TP. Thủ Đức",
+    "station_node": "Cầu Ngang - Võ Văn Ngân",
+    "segment_idx": 4,
+    "latitude": 10.855,
+    "longitude": 106.7535,
+    "hydro": {
+      "k_rain": 0.52,
+      "k_drain": 1.13,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-041",
+    "device_name": "Sensor Station 41 (Ngã ba Nguyễn Oanh - Lê Đức Thọ)",
+    "parent_id": "zone-03",
+    "parent_name": "Khu vực Trũng thấp Cây Trâm - Làng Hoa",
+    "parent_type": "ZONE",
+    "district": "Gò Vấp",
+    "station_node": "Ngã ba Nguyễn Oanh - Lê Đức Thọ",
+    "segment_idx": 0,
+    "latitude": 10.844,
+    "longitude": 106.679,
+    "hydro": {
+      "k_rain": 0.5,
+      "k_drain": 1.17,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-042",
+    "device_name": "Sensor Station 42 (Lê Đức Thọ - Thống Nhất)",
+    "parent_id": "zone-03",
+    "parent_name": "Khu vực Trũng thấp Cây Trâm - Làng Hoa",
+    "parent_type": "ZONE",
+    "district": "Gò Vấp",
+    "station_node": "Lê Đức Thọ - Thống Nhất",
+    "segment_idx": 1,
+    "latitude": 10.84,
+    "longitude": 106.675,
+    "hydro": {
+      "k_rain": 0.66,
+      "k_drain": 0.9,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-043",
+    "device_name": "Sensor Station 43 (Rốn ngập Cây Trâm - Nguyễn Văn Khối)",
+    "parent_id": "zone-03",
+    "parent_name": "Khu vực Trũng thấp Cây Trâm - Làng Hoa",
+    "parent_type": "ZONE",
+    "district": "Gò Vấp",
+    "station_node": "Rốn ngập Cây Trâm - Nguyễn Văn Khối",
+    "segment_idx": 2,
+    "latitude": 10.835,
+    "longitude": 106.672,
+    "hydro": {
+      "k_rain": 0.82,
+      "k_drain": 0.63,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-044",
+    "device_name": "Sensor Station 44 (Khu vực Công viên Làng Hoa)",
+    "parent_id": "zone-03",
+    "parent_name": "Khu vực Trũng thấp Cây Trâm - Làng Hoa",
+    "parent_type": "ZONE",
+    "district": "Gò Vấp",
+    "station_node": "Khu vực Công viên Làng Hoa",
+    "segment_idx": 3,
+    "latitude": 10.8385,
+    "longitude": 106.666,
+    "hydro": {
+      "k_rain": 0.72,
+      "k_drain": 0.8,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-045",
+    "device_name": "Sensor Station 45 (Nguyễn Văn Khối - Lê Văn Thọ)",
+    "parent_id": "zone-03",
+    "parent_name": "Khu vực Trũng thấp Cây Trâm - Làng Hoa",
+    "parent_type": "ZONE",
+    "district": "Gò Vấp",
+    "station_node": "Nguyễn Văn Khối - Lê Văn Thọ",
+    "segment_idx": 4,
+    "latitude": 10.841,
+    "longitude": 106.661,
+    "hydro": {
+      "k_rain": 0.54,
+      "k_drain": 1.1,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-046",
+    "device_name": "Sensor Station 46 (Bờ kè Bến Phú Định)",
+    "parent_id": "zone-04",
+    "parent_name": "Khu vực Lưu vực Bến Mễ Cốc - Hồ Học Lãm",
+    "parent_type": "ZONE",
+    "district": "Bình Tân & Q.8",
+    "station_node": "Bờ kè Bến Phú Định",
+    "segment_idx": 0,
+    "latitude": 10.71,
+    "longitude": 106.628,
+    "hydro": {
+      "k_rain": 0.58,
+      "k_drain": 1.03,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-047",
+    "device_name": "Sensor Station 47 (Cầu Mỹ Thuận - An Dương Vương)",
+    "parent_id": "zone-04",
+    "parent_name": "Khu vực Lưu vực Bến Mễ Cốc - Hồ Học Lãm",
+    "parent_type": "ZONE",
+    "district": "Bình Tân & Q.8",
+    "station_node": "Cầu Mỹ Thuận - An Dương Vương",
+    "segment_idx": 1,
+    "latitude": 10.714,
+    "longitude": 106.623,
+    "hydro": {
+      "k_rain": 0.74,
+      "k_drain": 0.77,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-048",
+    "device_name": "Sensor Station 48 (Rốn ngập Hồ Học Lãm)",
+    "parent_id": "zone-04",
+    "parent_name": "Khu vực Lưu vực Bến Mễ Cốc - Hồ Học Lãm",
+    "parent_type": "ZONE",
+    "district": "Bình Tân & Q.8",
+    "station_node": "Rốn ngập Hồ Học Lãm",
+    "segment_idx": 2,
+    "latitude": 10.718,
+    "longitude": 106.6185,
+    "hydro": {
+      "k_rain": 0.85,
+      "k_drain": 0.58,
+      "k_tide": 30.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-049",
+    "device_name": "Sensor Station 49 (Nút giao Đại lộ Võ Văn Kiệt)",
+    "parent_id": "zone-04",
+    "parent_name": "Khu vực Lưu vực Bến Mễ Cốc - Hồ Học Lãm",
+    "parent_type": "ZONE",
+    "district": "Bình Tân & Q.8",
+    "station_node": "Nút giao Đại lộ Võ Văn Kiệt",
+    "segment_idx": 3,
+    "latitude": 10.723,
+    "longitude": 106.615,
+    "hydro": {
+      "k_rain": 0.7,
+      "k_drain": 0.83,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  },
+  {
+    "device_id": "VN-HCM-050",
+    "device_name": "Sensor Station 50 (Kinh Dương Vương - Vòng xoay An Lạc)",
+    "parent_id": "zone-04",
+    "parent_name": "Khu vực Lưu vực Bến Mễ Cốc - Hồ Học Lãm",
+    "parent_type": "ZONE",
+    "district": "Bình Tân & Q.8",
+    "station_node": "Kinh Dương Vương - Vòng xoay An Lạc",
+    "segment_idx": 4,
+    "latitude": 10.731,
+    "longitude": 106.611,
+    "hydro": {
+      "k_rain": 0.52,
+      "k_drain": 1.13,
+      "k_tide": 15.0,
+      "tide_threshold_m": 1.3,
+      "initial_level_cm": 0.0
+    },
+    "sensor": {
+      "mount_height_cm": 200.0
+    }
+  }
+]

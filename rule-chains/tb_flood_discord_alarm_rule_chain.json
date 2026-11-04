@@ -1,0 +1,115 @@
+{
+  "ruleChain": {
+    "name": "HCM Flood Discord Alert",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null,
+    "additionalInfo": {
+      "description": "Rule chain for forwarding ThingsBoard Flood Alarms to Discord Webhook"
+    }
+  },
+  "metadata": {
+    "firstNodeIndex": 0,
+    "nodes": [
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeFilterNode",
+        "name": "Check Post Telemetry",
+        "debugMode": false,
+        "configuration": {
+          "messageNames": [
+            "POST_TELEMETRY_REQUEST"
+          ]
+        },
+        "additionalInfo": {
+          "layoutX": 220,
+          "layoutY": 150
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Filter Critical Flood (>= 50cm)",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.water_level_cm !== undefined && parseFloat(msg.water_level_cm) >= 50.0;"
+        },
+        "additionalInfo": {
+          "layoutX": 460,
+          "layoutY": 150
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Create Critical Flood Alarm",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "Critical Flood",
+          "alarmDetailsBuildJs": "var details = {};\ndetails.water_level_cm = msg.water_level_cm;\ndetails.rainfall_mm = msg.rainfall_mm || 0;\ndetails.temperature_c = msg.temperature_c || 0;\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        },
+        "additionalInfo": {
+          "layoutX": 720,
+          "layoutY": 150
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Format Discord Embed",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "var stationName = metadata.deviceName || metadata.device_id || 'Trạm Quan Trắc';\nvar waterLevel = msg.details && msg.details.water_level_cm ? msg.details.water_level_cm : (msg.water_level_cm || 'N/A');\nvar rain = msg.details && msg.details.rainfall_mm !== undefined ? msg.details.rainfall_mm : (msg.rainfall_mm || 0);\n\nvar discordPayload = {\n  \"content\": \"🚨 **[THINGSBOARD ALARM] CẢNH BÁO MỰC NƯỚC NGUY HIỂM** 🚨\",\n  \"embeds\": [{\n    \"title\": \"Trạm: \" + stationName,\n    \"description\": \"Hệ thống ThingsBoard IoT vừa phát hiện mực nước dâng cao vượt ngưỡng báo động đỏ!\",\n    \"color\": 15158332,\n    \"fields\": [\n      {\"name\": \"📍 Thiết bị / Trạm\", \"value\": \"`\" + stationName + \"`\", \"inline\": true},\n      {\"name\": \"⚠️ Mức độ\", \"value\": \"**CRITICAL (Báo động đỏ)**\", \"inline\": true},\n      {\"name\": \"🌊 Mực nước đo\", \"value\": \"**\" + waterLevel + \" cm**\", \"inline\": true},\n      {\"name\": \"🌧️ Lượng mưa\", \"value\": rain + \" mm\", \"inline\": true},\n      {\"name\": \"⚡ Ngưỡng quy định\", \"value\": \"≥ 50 cm\", \"inline\": true},\n      {\"name\": \"🕒 Thời gian ghi nhận\", \"value\": new Date().toLocaleString(\"vi-VN\", {timeZone: \"Asia/Ho_Chi_Minh\"}), \"inline\": true}\n    ],\n    \"footer\": {\n      \"text\": \"ThingsBoard Rule Engine • HCM Smart Flood Monitor\"\n    },\n    \"timestamp\": new Date().toISOString()\n  }]\n};\n\nreturn {msg: discordPayload, metadata: metadata, msgType: 'POST_TELEMETRY_REQUEST'};"
+        },
+        "additionalInfo": {
+          "layoutX": 980,
+          "layoutY": 150
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
+        "name": "Send Discord Webhook",
+        "debugMode": false,
+        "configuration": {
+          "restEndpointUrlPattern": "https://discord.com/api/webhooks/<WEBHOOK_ID>/<WEBHOOK_TOKEN>",
+          "requestMethod": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "useSimpleClientHttpFactory": false,
+          "readTimeoutMs": 5000,
+          "maxParallelRequestsLoop": 100
+        },
+        "additionalInfo": {
+          "layoutX": 1240,
+          "layoutY": 150
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 2,
+        "type": "True"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 4,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
