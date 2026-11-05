@@ -2143,7 +2143,7 @@
             </div>
           </div>
           <div class="rv" style="--i:6;font-family:var(--mono);font-size:14px;color:var(--a1);margin-top:22px;">
-            Kế hoạch 6 tuần · 26/10 → 06/12/2026<span class="cursor"></span>
+            Kế hoạch 6 tuần · 05/11 → 16/12/2026<span class="cursor"></span>
           </div>
         </div>
 
@@ -3347,7 +3347,7 @@ R= 0mm WiFi</div>
     <div class="slide" id="s-plan">
       <div class="lbl"><span class="num">11</span>Kế hoạch thực hiện<span class="who">🎤 <b>TV2</b> · <span
             data-f="m2.name"></span></span></div>
-      <h2 class="rv">6 tuần · <span class="hl">26/10 → 06/12/2026</span></h2>
+      <h2 class="rv">6 tuần · <span class="hl">05/11 → 16/12/2026</span></h2>
       <p class="sub rv">Ba luồng song song ứng với ba lát cắt: đo đạc (TV1), kết nối (TV2), cảnh báo và điều khiển (TV3).
         Mốc tích hợp cuối tuần 4: trạm thật và 50 trạm giả lập cùng hiện trên một bản đồ.</p>
       <div class="gantt rv" style="--i:2;row-gap:9px;margin-top:10px;" id="gantt"></div>
@@ -3628,7 +3628,7 @@ R= 0mm WiFi</div>
     (function gantt() {
       const g = document.getElementById('gantt');
       const W = 100 / 6;
-      const dates = ['26/10', '02/11', '09/11', '16/11', '23/11', '30/11'];
+      const dates = ['05/11', '12/11', '19/11', '26/11', '03/12', '10/12'];
       g.innerHTML = `<div></div><div class="scale" style="display:block;position:relative;height:14px;">${dates.map((d, i) => `<span style="position:absolute;left:${i * W}%">T${i + 1} · ${d}</span>`).join('')}</div><div></div>`;
       PLAN.forEach(([t, s, a, b, m], i) => {
         const l = (a - 1) * W, w = (b - a + 1) * W;
