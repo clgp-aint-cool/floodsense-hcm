@@ -179,7 +179,7 @@ Hệ thống gồm 4 lớp: thiết bị $\rightarrow$ MQTT $\rightarrow$ Things
   \item \textbf{Trạm đo:} vi điều khiển ESP32 đọc cảm biến, cảnh báo tại chỗ và gửi dữ liệu qua WiFi.
   \item \textbf{MQTT broker:} ThingsBoard tích hợp sẵn broker MQTT ở cổng 1883.
   \item \textbf{ThingsBoard CE:} quản lý thiết bị, lưu chuỗi thời gian vào PostgreSQL, chạy rule chain để tạo cảnh báo và gọi webhook Discord.
-  \item \textbf{Backend:} lấy dữ liệu từ ThingsBoard, cung cấp cho trang web và chuyển lệnh từ trang quản trị xuống trạm.
+  \item \textbf{Backend:} lấy dữ liệu từ ThingsBoard, cung cấp cho trang web và chuyển lệnh từ trang quản trị xuống trạm. Danh sách trạm (mã, tên, tọa độ, quận) đọc từ cùng một file cấu hình với công cụ giả lập nên chỉ khai báo một lần.
   \item \textbf{Web React + Leaflet:} bản đồ thời gian thực, trang chi tiết trạm và trang quản trị.
   \item \textbf{Công cụ giả lập (C++):} giả lập nhiều trạm, kết nối ThingsBoard như trạm thật.
 \end{itemize}
@@ -250,9 +250,8 @@ F09.3 & Báo trạm cần bảo trì & Gửi tin khi trạm mất kết nối & 
 \fc{F10} & \textbf{Bản đồ thời gian thực} & Chấm màu theo mức ngập, tự cập nhật & \ref{sec:f10} \\ \hline
 F10.1 & Chấm màu trên bản đồ & Mỗi trạm một chấm, màu theo 4 mức, xám khi OFFLINE & \\ \hline
 F10.2 & Cập nhật tức thì & Đổi màu trong khoảng 2 giây, không cần tải lại trang & \\ \hline
-F10.3 & Danh sách trạm & Thanh bên liệt kê trạm, lọc theo quận và mức ngập & \\ \hline
-F10.4 & Điểm ngập nghiêm trọng & Danh sách các điểm đang ở mức cao nhất & \\ \hline
-F10.5 & Thời tiết và triều & Thời tiết hiện tại và lịch triều & \\ \hline
+F10.3 & Danh sách trạm & Thanh bên liệt kê trạm xếp theo mực nước, lọc riêng trạm đang ngập & \\ \hline
+F10.4 & Tổng quan thành phố & Mực nước và lượng mưa trung bình, số trạm nguy cấp, cảnh báo, đang hoạt động & \\ \hline
 \fc{F11} & \textbf{Chi tiết trạm} & Biểu đồ mực nước, lượng mưa, lịch sử cảnh báo & \ref{sec:f11} \\ \hline
 F11.1 & Biểu đồ 24 giờ & Mực nước và lượng mưa theo thời gian & \\ \hline
 F11.2 & Lịch sử alarm & Thời điểm bật, xóa và mức nước cao nhất của từng lần ngập & \\ \hline
@@ -337,9 +336,8 @@ Khi có điểm ngập nghiêm trọng mới, hệ thống gửi một tin nhắ
 \subsubsection{F10 -- Bản đồ thời gian thực}\label{sec:f10}
 Trang chính là bản đồ TP.~Hồ Chí Minh, mỗi trạm là một chấm màu: xanh, vàng, cam, đỏ theo 4 mức ngập và xám khi trạm mất kết nối. Bản đồ tự đổi màu trong vòng khoảng 2 giây sau khi trạm gửi số đo mà không cần tải lại trang. Bên cạnh bản đồ có:
 \begin{itemize}
-  \item danh sách trạm, lọc theo quận và theo mức ngập;
-  \item danh sách các điểm đang ngập nặng;
-  \item thời tiết hiện tại và lịch triều.
+  \item danh sách trạm xếp theo mực nước từ cao xuống thấp, có thể lọc riêng các trạm đang ngập; bấm vào một trạm thì bản đồ di chuyển tới trạm đó;
+  \item ô tổng quan toàn thành phố: mực nước và lượng mưa trung bình đo tại các trạm, số trạm nguy cấp, cảnh báo và đang hoạt động.
 \end{itemize}
 
 \subsubsection{F11 -- Chi tiết trạm}\label{sec:f11}
@@ -617,7 +615,6 @@ Báo cáo trình bày kế hoạch xây dựng FloodSense HCM, một hệ thốn
 \bibitem{paho} Eclipse Foundation. \textit{Eclipse Paho MQTT C++ Client}. \url{https://github.com/eclipse-paho/paho.mqtt.cpp}
 \bibitem{esp32} Espressif Systems. \textit{ESP32 Series Datasheet}. \url{https://www.espressif.com/en/support/documents/technical-documents}
 \bibitem{openmeteo} Open-Meteo. \textit{Historical Weather API}. \url{https://open-meteo.com/en/docs/historical-weather-api}
-\bibitem{metno} MET Norway. \textit{Locationforecast 2.0}. \url{https://api.met.no/weatherapi/locationforecast/2.0/documentation}
 \bibitem{kttv} Đài Khí tượng Thủy văn khu vực Nam Bộ. \textit{Dự báo thủy triều trạm Phú An, Nhà Bè}. \url{https://kttvnb.vn}
 \bibitem{wokwi} Wokwi. \textit{ESP32 Simulator Documentation}. \url{https://docs.wokwi.com}
 \bibitem{fastapi} FastAPI. \textit{WebSockets}. \url{https://fastapi.tiangolo.com/advanced/websockets/}
