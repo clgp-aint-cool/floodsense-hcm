@@ -1635,6 +1635,14 @@
       color: var(--a3);
     }
 
+    /* ===== slide 6: mô hình trạm ===== */
+    .m6-cyc { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+    .m6-cyc i { font-style: normal; color: var(--ink4); }
+    .m6-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 16px; }
+    .m6-kpis .kpi { border-left: 2px solid var(--line2); padding-left: 12px; }
+    .m6-kpis .kpi .v { font-size: 30px; }
+    .m6-kpis .kpi .d { font-size: 13px; margin-top: 3px; }
+
     /* ===== sơ đồ tuần tự ===== */
     .seq {
       position: relative;
@@ -2543,43 +2551,134 @@
       <div class="lbl"><span class="num">04</span>Mô tả chi tiết · sản phẩm<span class="who">🎤 <b>TV1</b> · <span
             data-f="m1.name"></span></span></div>
       <h2 class="rv">Trạm đo làm gì <span class="hl">khi không có ai nhìn</span>?</h2>
-      <p class="sub rv">Trạm tự quyết định tại chỗ: không cần server vẫn bật được đèn và còi. Mỗi chu kỳ: đo → lọc nhiễu →
-        tính mực nước → xác định mức ngập → cập nhật đèn, còi, màn hình → gửi dữ liệu lên server.</p>
-      <div class="grid3 fill" style="grid-auto-rows:1fr;">
-        <div class="card t1 rv">
-          <div class="ctitle c1">📏 Đo mực nước · F01</div>
-          <p class="sm just">Cảm biến siêu âm chống nước treo trên cột, cách mặt đường khô khoảng <b>2 m</b>, hướng thẳng
-            xuống. Trạm đo khoảng cách tới mặt nước rồi suy ra <b>độ sâu nước ngập</b>. Lấy nhiều mẫu và bỏ mẫu bất
-            thường (sóng nước, rác trôi). Nếu cảm biến nhiều lần liền không trả kết quả, trạm <b>báo lỗi cảm biến</b>
-            lên server.</p>
+      <p class="sub rv">Trạm tự quyết định tại chỗ, không cần server vẫn bật đèn và còi. Nước trong mô hình dâng rút để
+        minh họa một chu kỳ.</p>
+      <div class="row fill" style="gap:22px;">
+        <div class="rv" style="flex:1.25;min-height:0;">
+          <svg viewBox="0 0 900 600" class="svg-fill" id="m6">
+            <!-- mặt đường -->
+            <rect x="0" y="540" width="900" height="60" fill="var(--panel)" />
+            <line x1="0" y1="540" x2="900" y2="540" stroke="var(--ink3)" stroke-width="2" />
+            <!-- nước -->
+            <rect id="m6-water" x="0" y="440" width="700" height="100" fill="var(--water)" />
+            <!-- cột -->
+            <rect x="380" y="62" width="14" height="478" rx="3" fill="var(--panel-solid)" stroke="var(--sketch)"
+              stroke-width="1.5" />
+            <!-- gáo mưa -->
+            <path d="M356 26 H418 L404 52 H370 Z" fill="var(--a1-bg)" stroke="var(--a1)" stroke-width="2" />
+            <rect x="372" y="52" width="30" height="12" fill="var(--panel-solid)" stroke="var(--a1)" stroke-width="2" />
+            <g id="m6-drops" fill="var(--a1)">
+              <circle cx="372" cy="0" r="2.5"><animate attributeName="cy" values="0;24" dur="0.9s" repeatCount="indefinite" /></circle>
+              <circle cx="388" cy="0" r="2.5"><animate attributeName="cy" values="0;24" dur="0.9s" begin=".3s" repeatCount="indefinite" /></circle>
+              <circle cx="404" cy="0" r="2.5"><animate attributeName="cy" values="0;24" dur="0.9s" begin=".6s" repeatCount="indefinite" /></circle>
+            </g>
+            <!-- cần treo cảm biến -->
+            <rect x="394" y="140" width="160" height="8" rx="2" fill="var(--panel-solid)" stroke="var(--sketch)"
+              stroke-width="1.5" />
+            <rect x="530" y="148" width="30" height="20" rx="4" fill="var(--a1-bg)" stroke="var(--a1)" stroke-width="2" />
+            <line id="m6-beam" x1="545" y1="170" x2="545" y2="440" stroke="var(--a1)" stroke-width="2" class="dash" />
+            <!-- hộp thiết bị -->
+            <rect x="262" y="168" width="118" height="160" rx="10" fill="var(--panel-solid)" stroke="var(--sketch)"
+              stroke-width="2" />
+            <rect x="274" y="182" width="94" height="38" rx="4" fill="#0f3d1f" />
+            <text id="m6-lcd1" x="282" y="198" font-family="JetBrains Mono" font-size="12" fill="#b8ff9a">H= 10cm</text>
+            <text id="m6-lcd2" x="282" y="213" font-family="JetBrains Mono" font-size="12" fill="#b8ff9a">SAFE</text>
+            <circle id="m6-g" cx="292" cy="248" r="10" fill="var(--ok)" />
+            <circle id="m6-y" cx="321" cy="248" r="10" fill="var(--a3)" opacity=".18" />
+            <circle id="m6-r" cx="350" cy="248" r="10" fill="var(--a2)" opacity=".18" />
+            <circle cx="321" cy="292" r="15" fill="var(--panel)" stroke="var(--ink3)" stroke-width="2" />
+            <circle cx="321" cy="292" r="5" fill="var(--ink3)" />
+            <g id="m6-buz" opacity="0" stroke="var(--a2)" stroke-width="2.5" fill="none" stroke-linecap="round">
+              <path d="M342 280 Q350 292 342 304" /><path d="M350 274 Q362 292 350 310" />
+            </g>
+            <!-- ăng-ten + kết nối server -->
+            <line x1="366" y1="168" x2="366" y2="136" stroke="var(--sketch)" stroke-width="2" />
+            <circle cx="366" cy="133" r="4" fill="var(--ok)" />
+            <path d="M362 128 C320 70 260 70 222 86" stroke="var(--ok)" stroke-width="2" fill="none" class="dash" />
+            <path d="M120 106 a26 26 0 0 1 22 -40 a34 34 0 0 1 64 -6 a24 24 0 0 1 20 46 Z" fill="var(--ok-bg)"
+              stroke="var(--ok)" stroke-width="2" />
+            <text x="172" y="96" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">ThingsBoard</text>
+
+            <!-- kích thước -->
+            <g font-family="JetBrains Mono" font-size="13">
+              <line x1="600" y1="158" x2="600" y2="540" stroke="var(--ink3)" stroke-width="1.2" />
+              <path d="M594 158 H606 M594 540 H606" stroke="var(--ink3)" stroke-width="1.2" />
+              <text x="592" y="352" fill="var(--ink3)" text-anchor="end">h = 200</text>
+              <line id="m6-dl" x1="640" y1="168" x2="640" y2="440" stroke="var(--a1)" stroke-width="2" />
+              <text id="m6-dt" x="648" y="300" fill="var(--a1)" font-weight="700">d</text>
+              <line id="m6-hl" x1="640" y1="440" x2="640" y2="540" stroke="var(--a2)" stroke-width="2" />
+              <text id="m6-ht" x="648" y="495" fill="var(--a2)" font-weight="700">H</text>
+              <text x="560" y="590" fill="var(--ink2)" font-weight="700">H = h − d</text>
+            </g>
+
+            <!-- thang mức ngập: 4 px / cm -->
+            <g font-family="JetBrains Mono" font-size="12">
+              <rect x="742" y="460" width="22" height="80" fill="var(--ok)" opacity=".55" />
+              <rect x="742" y="400" width="22" height="60" fill="var(--a3)" opacity=".55" />
+              <rect x="742" y="340" width="22" height="60" fill="var(--warn)" opacity=".55" />
+              <rect x="742" y="200" width="22" height="140" fill="var(--a2)" opacity=".55" />
+              <text x="772" y="497" fill="var(--ok)" font-weight="800">SAFE</text>
+              <text x="772" y="512" fill="var(--ink3)">&lt;20 · 30 s</text>
+              <text x="772" y="427" fill="var(--a3)" font-weight="800">ALERT</text>
+              <text x="772" y="442" fill="var(--ink3)">20–35 · 10 s</text>
+              <text x="772" y="367" fill="var(--warn)" font-weight="800">WARNING</text>
+              <text x="772" y="382" fill="var(--ink3)">35–50 · 5 s</text>
+              <text x="772" y="267" fill="var(--a2)" font-weight="800">CRITICAL</text>
+              <text x="772" y="282" fill="var(--ink3)">≥50 · 2 s</text>
+              <text x="742" y="190" fill="var(--ink3)">cm · chu kỳ gửi</text>
+              <path id="m6-ptr" d="M728 494 l12 -6 v12 Z" fill="var(--ink)" />
+            </g>
+            <text id="m6-read" x="742" y="90" font-size="44" font-weight="900" fill="var(--ok)">10 cm</text>
+            <text id="m6-st" x="744" y="118" font-family="JetBrains Mono" font-size="14" font-weight="700"
+              fill="var(--ok)">SAFE</text>
+
+            <!-- chú thích -->
+            <g font-size="13.5">
+              <circle cx="436" cy="28" r="11" class="sk-c" /><text x="436" y="32" text-anchor="middle" class="sk-n">2</text>
+              <text x="454" y="25" font-weight="800" fill="var(--ink)">Gáo mưa · F02</text>
+              <text x="454" y="43" fill="var(--ink3)">0,2 mm mỗi lần lật</text>
+
+              <circle cx="436" cy="114" r="11" class="sk-c" /><text x="436" y="118" text-anchor="middle" class="sk-n">1</text>
+              <text x="454" y="111" font-weight="800" fill="var(--ink)">Siêu âm · F01</text>
+              <text x="454" y="129" fill="var(--ink3)">trung vị 5 mẫu · ±1 cm</text>
+
+              <circle cx="36" cy="196" r="11" class="sk-c" /><text x="36" y="200" text-anchor="middle" class="sk-n">3</text>
+              <text x="54" y="193" font-weight="800" fill="var(--ink)">LCD 16×2 · F04</text>
+              <text x="54" y="211" fill="var(--ink3)">mực nước, mức, mưa</text>
+              <line x1="190" y1="200" x2="270" y2="200" class="sk-l" />
+
+              <circle cx="36" cy="262" r="11" class="sk-c" /><text x="36" y="266" text-anchor="middle" class="sk-n">4</text>
+              <text x="54" y="259" font-weight="800" fill="var(--ink)">Đèn 3 màu + còi · F03–04</text>
+              <text x="54" y="277" fill="var(--ink3)">còi chỉ kêu ở CRITICAL</text>
+              <line x1="232" y1="266" x2="280" y2="252" class="sk-l" />
+
+              <circle cx="36" cy="142" r="11" class="sk-c" /><text x="36" y="146" text-anchor="middle" class="sk-n">5</text>
+              <text x="54" y="139" font-weight="800" fill="var(--ink)">MQTT · F05–07</text>
+              <text x="54" y="157" fill="var(--ink3)">tự đăng ký, nhận lệnh</text>
+            </g>
+          </svg>
         </div>
-        <div class="card t3 rv">
-          <div class="ctitle c3">🚦 Phân loại &amp; cảnh báo · F03, F04</div>
-          <p class="sm just"><b class="cok">SAFE</b> &lt; 20 cm · <b class="c3">ALERT</b> 20–35 · <b
-              class="cw">WARNING</b> 35–50 · <b class="c2">CRITICAL</b> ≥ 50 cm. Khi nước rút, chỉ <b>hạ mức khi nước
-            xuống hẳn</b> dưới ngưỡng để đèn không bật tắt liên tục. Đèn xanh / vàng / vàng nháy / đỏ, còi kêu ở CRITICAL.
-          </p>
-        </div>
-        <div class="card t2 rv">
-          <div class="ctitle c2">⏱️ Gửi dữ liệu · F05</div>
-          <p class="sm just">Trời khô gửi thưa, khoảng <b>1 phút</b>/lần, để tiết kiệm pin; nước càng cao gửi càng dày, tới
-            <b>vài giây</b>/lần; đổi mức thì <b>gửi ngay</b>. Mất mạng thì giữ dữ liệu lại và <b>gửi bù</b> khi có mạng.</p>
-        </div>
-        <div class="card t1 rv">
-          <div class="ctitle c1">🌧️ Đo lượng mưa · F02</div>
-          <p class="sm just">Bộ đo mưa gáo lật đặt ở đỉnh cột, <b>0,2 mm mỗi lần lật</b>. Trạm đếm số lần lật (không đếm
-            trùng) để tính <b>lượng mưa</b> và <b>cường độ mưa</b>. Mưa lớn kèm nước lên nhanh là dấu hiệu sắp ngập.</p>
-        </div>
-        <div class="card tok rv">
-          <div class="ctitle cok">🛰️ Kết nối &amp; điều khiển · F06, F07</div>
-          <p class="sm just">Lần đầu khởi động, trạm <b>tự đăng ký</b> với ThingsBoard bằng khóa chung của dự án và lưu
-            mã truy cập. Từ web có thể <b>đổi ngưỡng</b>, <b>thử còi</b>, <b>tắt còi</b>, hỏi trạng thái; trạm áp
-            dụng ngay, không cần nạp lại chương trình.</p>
-        </div>
-        <div class="card t3 rv">
-          <div class="ctitle c3">🖥️ Hiển thị tại chỗ · F04</div>
-          <p class="sm just">Màn hình LCD hiện mực nước, mức ngập, lượng mưa và tình trạng mạng để người đi đường đọc ngay
-            tại chỗ. Đèn, còi, LCD <b>vẫn chạy khi mất mạng</b>; còi có thể tắt từ trang quản trị (F06).</p>
+        <div class="col" style="flex:.8;gap:12px;">
+          <div class="card t1 rv">
+            <div class="ctitle c1">Mỗi chu kỳ đo</div>
+            <div class="m6-cyc">
+              <span class="tag t-1">📡 đo</span><i>→</i><span class="tag t-1">trung vị 5</span><i>→</i><span
+                class="tag t-1">H = h − d</span><i>→</i><span class="tag t-3">🚦 phân loại</span><i>→</i><span
+                class="tag t-2">💡 đèn · còi · LCD</span><i>→</i><span class="tag t-ok">📤 MQTT</span>
+            </div>
+          </div>
+          <div class="m6-kpis rv">
+            <div class="kpi"><div class="v c1">±1<span class="u">cm</span></div><div class="d">sai số mực nước</div></div>
+            <div class="kpi"><div class="v c1">0,2<span class="u">mm</span></div><div class="d">mỗi lần lật gáo</div></div>
+            <div class="kpi"><div class="v c3">2<span class="u">cm</span></div><div class="d">trễ khi hạ mức, đèn không nhấp nháy</div></div>
+            <div class="kpi"><div class="v cok">30→2<span class="u">s</span></div><div class="d">nước càng cao gửi càng dày</div></div>
+            <div class="kpi"><div class="v c2">5<span class="u">lần</span></div><div class="d">đọc lỗi liên tiếp → báo lỗi cảm biến</div></div>
+            <div class="kpi"><div class="v c2">0<span class="u">s</span></div><div class="d">đổi mức là gửi ngay</div></div>
+          </div>
+          <div class="col" style="gap:0;">
+            <div class="chk rv"><span class="bx ok">✓</span><span><b>Mất mạng</b>: đèn, còi, LCD vẫn chạy; giữ số đo và gửi bù.</span></div>
+            <div class="chk rv"><span class="bx ok">✓</span><span><b>Từ xa</b>: đổi ngưỡng, thử/tắt còi, không nạp lại firmware.</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -2795,34 +2894,154 @@
       <div class="lbl"><span class="num">05</span>Luồng 3 · đăng ký &amp; điều khiển từ xa<span class="who">🎤
           <b>TV3</b> · <span data-f="m3.name"></span></span></div>
       <h2 class="rv">Trạm tự đăng ký và <span class="hl">điều khiển từ xa hai chiều</span></h2>
-      <p class="sub rv">Lắp trạm mới không phải tạo thiết bị bằng tay: trạm tự đăng ký bằng khóa chung của dự án. Sau đó
-        người vận hành đổi ngưỡng và thử còi ngay trên web, không cần ra hiện trường.</p>
-      <div class="row fill">
-        <div class="seq rv" style="flex:1;" data-actors="Trạm mới|ESP32 hoặc giả lập;ThingsBoard|server"
-          data-steps='[
-            [0,1,"Xin đăng ký: tên trạm + <b>khóa chung</b>",""],
-            [1,1,"tạo thiết bị mới cho trạm",""],
-            [1,0,"Trả về <b>mã truy cập</b> riêng","ok"],
-            [0,0,"lưu mã, lần sau không cần đăng ký lại",""],
-            [0,1,"Kết nối lại bằng mã truy cập",""],
-            [0,1,"Gửi thông tin tĩnh: chiều cao lắp, tọa độ",""],
-            [0,1,"Đăng ký nhận cấu hình và lệnh",""],
-            [0,1,"Gửi số đo theo chu kỳ…",""]
-          ]'></div>
-        <div class="seq rv" style="flex:1.25;"
-          data-actors="Web quản trị|người vận hành;Backend|server;ThingsBoard|nền tảng;Trạm|ESP32"
-          data-steps='[
-            [0,1,"Đổi ngưỡng CRITICAL = 45 cm","w"],
-            [1,2,"ghi cấu hình mới của trạm","w"],
-            [2,3,"đẩy cấu hình xuống trạm","w"],
-            [3,3,"áp dụng ngay, không nạp lại chương trình",""],
-            [0,1,"Bấm 🔊 Thử còi","2"],
-            [1,2,"chuyển lệnh thử còi","2"],
-            [2,3,"gửi lệnh tới trạm","2"],
-            [3,3,"còi kêu vài giây, đèn đỏ",""],
-            [3,2,"báo lại: đã thử xong","ok"],
-            [2,0,"web hiện “Đã thử còi”","ok"]
-          ]'></div>
+      <p class="sub rv">Trên: lần đầu bật nguồn, trạm tự xin "giấy phép" rồi gửi số đo. Dưới: người vận hành bấm trên
+        web, lệnh đi xuống trạm và có xác nhận quay về.</p>
+      <div class="rv fill" style="min-height:0;">
+        <svg viewBox="0 0 1500 610" class="svg-fill" id="m10">
+          <defs>
+            <marker id="m10a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L10 5 L0 10z" fill="context-stroke" />
+            </marker>
+          </defs>
+
+          <!-- ── vùng ① tự đăng ký ── -->
+          <rect x="40" y="18" width="740" height="206" rx="18" fill="var(--a1-bg)" stroke="var(--a1)"
+            stroke-opacity=".35" stroke-dasharray="6 6" />
+          <text x="62" y="48" font-family="JetBrains Mono" font-size="15" font-weight="800" fill="var(--a1)">① LẦN ĐẦU BẬT
+            NGUỒN · TỰ ĐĂNG KÝ</text>
+          <text x="62" y="70" font-size="13.5" fill="var(--ink3)">chỉ chạy một lần · Device provisioning</text>
+          <path id="m10-key" d="M170 236 C170 96 640 96 640 236" stroke="var(--a1)" stroke-width="2.5" fill="none"
+            marker-end="url(#m10a)" />
+          <path id="m10-tok" d="M630 236 C630 168 180 168 180 236" stroke="var(--ok)" stroke-width="2.5" fill="none"
+            marker-end="url(#m10a)" />
+          <g font-size="14" font-weight="700">
+            <text x="405" y="116" text-anchor="middle" fill="var(--a1)">1 · xin đăng ký bằng khóa chung của dự án</text>
+            <text x="405" y="168" text-anchor="middle" fill="var(--ok)">2 · tạo thiết bị, trả mã truy cập riêng</text>
+          </g>
+
+          <!-- ── luồng số đo thường xuyên ── -->
+          <path id="m10-data" d="M270 300 H1250" stroke="var(--ink4)" stroke-width="2.5" fill="none"
+            class="dash" marker-end="url(#m10a)" />
+          <g font-family="JetBrains Mono" font-size="12.5" fill="var(--ink3)" text-anchor="middle">
+            <text x="405" y="290">3 · gửi số đo bằng mã riêng</text>
+            <text x="825" y="290">lưu + rule chain</text>
+            <text x="1180" y="290">WebSocket</text>
+          </g>
+
+          <g>
+            <g>
+              <circle r="7" fill="var(--a1)" />
+              <animateMotion dur="3s" repeatCount="indefinite"><mpath href="#m10-data" /></animateMotion>
+            </g>
+            <g>
+              <circle r="7" fill="var(--a1)" />
+              <animateMotion dur="3s" begin="1.5s" repeatCount="indefinite"><mpath href="#m10-data" /></animateMotion>
+            </g>
+          </g>
+
+          <!-- ── vùng ② điều khiển từ xa ── -->
+          <rect x="40" y="392" width="1420" height="206" rx="18" fill="var(--a2-bg)" stroke="var(--a2)"
+            stroke-opacity=".3" stroke-dasharray="6 6" />
+          <text x="62" y="586" font-family="JetBrains Mono" font-size="15" font-weight="800" fill="var(--a2)">② ĐIỀU KHIỂN TỪ XA ·
+            KHÔNG CẦN RA HIỆN TRƯỜNG</text>
+          <path id="m10-cmd" d="M1370 366 V450 Q1370 470 1350 470 H170 Q150 470 150 450 V366" stroke="var(--a2)"
+            stroke-width="2.5" fill="none" marker-end="url(#m10a)" />
+          <path id="m10-ack" d="M190 366 V500 Q190 530 220 530 H1300 Q1330 530 1330 500 V366" stroke="var(--ok)"
+            stroke-width="2.5" fill="none" marker-end="url(#m10a)" />
+          <g font-family="JetBrains Mono" font-size="12.5" text-anchor="middle">
+            <circle cx="1010" cy="470" r="6" fill="var(--a2)" />
+            <text x="1010" y="455" fill="var(--a2)">gọi REST API</text>
+            <circle cx="640" cy="470" r="6" fill="var(--a2)" />
+            <text x="640" y="455" fill="var(--a2)">shared attribute / RPC</text>
+            <text x="760" y="552" fill="var(--ok)">trạm báo lại kết quả</text>
+          </g>
+
+          <!-- ── 4 khối ── -->
+          <g text-anchor="middle">
+            <g id="m10-st">
+              <rect x="70" y="236" width="200" height="130" rx="18" fill="var(--panel-solid)" stroke="var(--a1)"
+                stroke-width="2.5" />
+              <rect x="64" y="230" width="212" height="142" rx="22" fill="none" stroke="var(--a2)"
+                stroke-width="4" opacity="0">
+                <animate attributeName="opacity" values="0;1;0" keyTimes="0;.34;.5" dur="9s" repeatCount="indefinite" calcMode="discrete" />
+              </rect>
+              <text x="170" y="290" font-size="38">📟</text>
+              <text x="170" y="322" font-size="18" font-weight="800" fill="var(--ink)">Trạm ESP32</text>
+              <text x="170" y="344" font-family="JetBrains Mono" font-size="12" fill="var(--ink3)">Wokwi / giả lập</text>
+              <circle cx="246" cy="258" r="8" fill="var(--ok)" />
+              <circle cx="246" cy="258" r="8" fill="var(--a2)" opacity="0">
+                <animate attributeName="opacity" values="0;1;0" keyTimes="0;.34;.5" dur="9s" repeatCount="indefinite" calcMode="discrete" />
+              </circle>
+            </g>
+            <rect x="540" y="236" width="200" height="130" rx="18" fill="var(--panel-solid)" stroke="var(--ok)"
+              stroke-width="2.5" />
+            <text x="640" y="290" font-size="38">🧠</text>
+            <text x="640" y="322" font-size="18" font-weight="800" fill="var(--ink)">ThingsBoard</text>
+            <text x="640" y="344" font-family="JetBrains Mono" font-size="12" fill="var(--ink3)">MQTT broker + lưu trữ</text>
+
+            <rect x="910" y="236" width="200" height="130" rx="18" fill="var(--panel-solid)" stroke="var(--a3)"
+              stroke-width="2.5" />
+            <text x="1010" y="290" font-size="38">⚙️</text>
+            <text x="1010" y="322" font-size="18" font-weight="800" fill="var(--ink)">Backend</text>
+            <text x="1010" y="344" font-family="JetBrains Mono" font-size="12" fill="var(--ink3)">FastAPI</text>
+
+            <rect x="1250" y="236" width="200" height="130" rx="18" fill="var(--panel-solid)" stroke="var(--a2)"
+              stroke-width="2.5" />
+            <text x="1350" y="290" font-size="38">🧑‍💻</text>
+            <text x="1350" y="322" font-size="18" font-weight="800" fill="var(--ink)">Web quản trị</text>
+            <text x="1350" y="344" font-family="JetBrains Mono" font-size="12" fill="var(--ink3)">người vận hành</text>
+          </g>
+          <!-- còi kêu ở trạm -->
+          <g id="m10-buz" opacity="0" stroke="var(--a2)" stroke-width="3" fill="none" stroke-linecap="round">
+            <path d="M44 280 Q34 300 44 320" /><path d="M30 270 Q16 300 30 330" />
+            <animate attributeName="opacity" values="0;1;0" keyTimes="0;.34;.5" dur="9s" repeatCount="indefinite"
+              calcMode="discrete" />
+          </g>
+
+          <!-- ── gói tin chạy ── -->
+          <g font-size="13" font-weight="800" text-anchor="middle">
+            <g>
+              <rect x="-70" y="-15" width="140" height="30" rx="15" fill="var(--panel-solid)" stroke="var(--a1)" stroke-width="2" />
+              <text y="5" fill="var(--a1)">🔑 khóa chung</text>
+              <animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.33;1" calcMode="linear"><mpath href="#m10-key" /></animateMotion>
+              <animate attributeName="opacity" values="1;0" keyTimes="0;.34" dur="6s" repeatCount="indefinite" calcMode="discrete" />
+            </g>
+            <g opacity="0">
+              <rect x="-76" y="-15" width="152" height="30" rx="15" fill="var(--panel-solid)" stroke="var(--ok)" stroke-width="2" />
+              <text y="5" fill="var(--ok)">🎫 mã truy cập</text>
+              <animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.4;.73;1" calcMode="linear"><mpath href="#m10-tok" /></animateMotion>
+              <animate attributeName="opacity" values="0;1;0" keyTimes="0;.4;.74" dur="6s" repeatCount="indefinite" calcMode="discrete" />
+            </g>
+            <g>
+              <rect x="-62" y="-15" width="124" height="30" rx="15" fill="var(--panel-solid)" stroke="var(--a2)" stroke-width="2" />
+              <text y="5" fill="var(--a2)">🔊 thử còi</text>
+              <animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.33;1" calcMode="linear"><mpath href="#m10-cmd" /></animateMotion>
+              <animate attributeName="opacity" values="1;0" keyTimes="0;.34" dur="9s" repeatCount="indefinite" calcMode="discrete" />
+            </g>
+            <g opacity="0">
+              <rect x="-84" y="-15" width="168" height="30" rx="15" fill="var(--panel-solid)" stroke="var(--a3)" stroke-width="2" />
+              <text y="5" fill="var(--a3)">⚙️ ngưỡng = 45 cm</text>
+              <animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.5;.83;1" calcMode="linear"><mpath href="#m10-cmd" /></animateMotion>
+              <animate attributeName="opacity" values="0;1;0" keyTimes="0;.5;.84" dur="9s" repeatCount="indefinite" calcMode="discrete" />
+            </g>
+            <g opacity="0">
+              <rect x="-70" y="-15" width="140" height="30" rx="15" fill="var(--panel-solid)" stroke="var(--ok)" stroke-width="2" />
+              <text y="5" fill="var(--ok)">✅ đã thử còi</text>
+              <animateMotion dur="9s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.5;.83;1" calcMode="linear"><mpath href="#m10-ack" /></animateMotion>
+              <animate attributeName="opacity" values="0;1;0" keyTimes="0;.5;.84" dur="9s" repeatCount="indefinite" calcMode="discrete" />
+            </g>
+          </g>
+
+          <!-- ── ghi chú bên phải vùng ① ── -->
+          <g font-size="15">
+            <text x="840" y="60" font-weight="800" fill="var(--ink)">Vì sao cần?</text>
+            <text x="840" y="90" fill="var(--ink2)">• Lắp trạm mới không phải tạo thiết bị bằng tay</text>
+            <text x="840" y="118" fill="var(--ink2)">• Mã truy cập lưu lại, lần sau kết nối thẳng</text>
+            <text x="840" y="146" fill="var(--ink2)">• Đổi ngưỡng, thử/tắt còi áp dụng ngay,</text>
+            <text x="856" y="168" fill="var(--ink2)">không nạp lại firmware</text>
+            <text x="840" y="196" fill="var(--ink2)">• Mọi lệnh đều có xác nhận quay về web</text>
+          </g>
+        </svg>
       </div>
     </div>
 
@@ -3978,6 +4197,40 @@ R= 0mm WiFi</div>
     setTheme(saved || 'flood');
     const start = parseInt(location.hash.slice(1), 10);
     goTo(start > 0 ? start - 1 : 0);
+  
+    /* ---------- slide 6: nước dâng rút trong mô hình trạm ---------- */
+    (function stationModel() {
+      const svg = document.getElementById('m6');
+      if (!svg) return;
+      const $ = id => document.getElementById(id);
+      const ROAD = 540, SENSOR = 168, PX = (ROAD - SENSOR) / 200, GAUGE = 4;
+      const LV = [['SAFE', 'var(--ok)'], ['ALERT', 'var(--a3)'], ['WARNING', 'var(--warn)'], ['CRITICAL', 'var(--a2)']];
+      let t = 0, lvl = 0;
+      setInterval(() => {
+        if (!svg.closest('.slide').classList.contains('active')) return;
+        t += 0.1;
+        const H = 32 + 30 * Math.sin(t / 2.2);          // 2 → 62 cm
+        const raw = H >= 50 ? 3 : H >= 35 ? 2 : H >= 20 ? 1 : 0;
+        // hạ mức chỉ khi nước rút quá ngưỡng 2 cm
+        if (raw > lvl || H + 2 < [0, 20, 35, 50][lvl]) lvl = raw;
+        const y = ROAD - H * PX, [name, col] = LV[lvl];
+        $('m6-water').setAttribute('y', y); $('m6-water').setAttribute('height', ROAD - y);
+        $('m6-beam').setAttribute('y2', y);
+        $('m6-dl').setAttribute('y2', y); $('m6-hl').setAttribute('y1', y);
+        $('m6-dt').setAttribute('y', (SENSOR + y) / 2 + 4); $('m6-ht').setAttribute('y', (y + ROAD) / 2 + 4);
+        $('m6-ptr').setAttribute('transform', `translate(0 ${46 - Math.min(H, 85) * GAUGE})`);
+        $('m6-read').textContent = `${H.toFixed(0)} cm`;
+        $('m6-read').setAttribute('fill', col);
+        $('m6-st').textContent = name; $('m6-st').setAttribute('fill', col);
+        $('m6-lcd1').textContent = `H=${H.toFixed(0).padStart(3)}cm`;
+        $('m6-lcd2').textContent = name;
+        const blink = Math.floor(t * 4) % 2 === 0;
+        $('m6-g').setAttribute('opacity', lvl === 0 ? 1 : .18);
+        $('m6-y').setAttribute('opacity', lvl === 1 || (lvl === 2 && blink) ? 1 : .18);
+        $('m6-r').setAttribute('opacity', lvl === 3 ? 1 : .18);
+        $('m6-buz').setAttribute('opacity', lvl === 3 && blink ? 1 : 0);
+      }, 100);
+    })();
   </script>
 </body>
 
