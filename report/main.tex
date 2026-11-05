@@ -160,7 +160,7 @@ Ngoài ra, trạm quan trắc chuyên dụng có giá cao nên khó lắp dày �
   \item Đo mực nước trên mặt đường với sai số khoảng $\pm 1$~cm và lượng mưa với độ phân giải 0,2~mm.
   \item Cảnh báo tại chỗ trong vòng 1 chu kỳ đo, kể cả khi mất mạng.
   \item Dữ liệu hiện trên bản đồ web dưới 2 giây sau khi trạm gửi.
-  \item Phạm vi đồ án: 1 trạm thật (hoặc mạch Wokwi) và 50 trạm giả lập trên nền tảng ThingsBoard Community Edition chạy bằng Docker.
+  \item Phạm vi đồ án: \textbf{chỉ mô phỏng}, không chế tạo trạm thật. Gồm 1 trạm ESP32 chạy trên trình giả lập Wokwi và 50 trạm giả lập bằng chương trình C++, cùng kết nối nền tảng ThingsBoard Community Edition chạy bằng Docker. Bảng linh kiện và bản vẽ phác thảo dùng để dự toán khi triển khai thật.
 \end{itemize}
 
 % ======================================================================
@@ -355,7 +355,7 @@ Người vận hành đăng nhập để vào trang quản trị. Tại đây c�
   \item tua nhanh thời gian để một trận mưa vài giờ chạy xong trong vài phút;
   \item tạo lỗi có chủ đích (trạm mất mạng, cảm biến hỏng) để kiểm tra các cảnh báo tương ứng.
 \end{itemize}
-Song song đó, mạch của trạm được dựng trên trình giả lập Wokwi để chạy thử chương trình ESP32 trước khi mua linh kiện.
+Song song đó, mạch của trạm được dựng trên trình giả lập Wokwi thay cho trạm thật: cảm biến siêu âm HC-SR04 của Wokwi đóng vai JSN-SR04T (cùng cách đọc chân TRIG/ECHO), một nút bấm đóng vai gáo mưa (mỗi lần nhấn là một lần lật gáo).
 
 % ======================================================================
 \section{Phần cứng và danh sách linh kiện}
@@ -390,7 +390,7 @@ Còi buzzer & 14 & Qua transistor NPN \\ \hline
 
 \subsection{Danh sách linh kiện và bảng giá}
 
-Bảng~\ref{tab:bom} liệt kê linh kiện cho \textbf{một trạm}. Giá được tra ngày 23/10/2026 tại các trang bán ghi trong cột nguồn; các mục ghi ``ước tính'' là giá tham khảo thị trường, nhóm sẽ xác minh lại trước khi mua.
+Bảng~\ref{tab:bom} liệt kê linh kiện cho \textbf{một trạm}. Đồ án chỉ mô phỏng nên nhóm không mua linh kiện; bảng này là \textbf{dự toán} chi phí khi triển khai thật. Giá được tra ngày 23/10/2026 tại các trang bán ghi trong cột nguồn; các mục ghi ``ước tính'' là giá tham khảo thị trường, cần xác minh lại nếu triển khai.
 
 \renewcommand{\arraystretch}{1.3}
 \begin{longtable}{|C{0.6cm}|L{4.6cm}|C{0.9cm}|R{1.7cm}|R{1.8cm}|L{3.5cm}|}
@@ -422,7 +422,7 @@ Bảng~\ref{tab:bom} liệt kê linh kiện cho \textbf{một trạm}. Giá đư
 % ======================================================================
 \section{Bản vẽ phác thảo sản phẩm}
 
-Các bản vẽ dưới đây do nhóm tự vẽ bằng TikZ, không sử dụng hình ảnh sản phẩm có sẵn.
+Các bản vẽ dưới đây do nhóm tự vẽ bằng TikZ, không sử dụng hình ảnh sản phẩm có sẵn. Đồ án không chế tạo vỏ trạm; bản vẽ thể hiện thiết kế dự kiến khi triển khai thật.
 
 \subsection{Hình dáng bên ngoài}
 
@@ -505,7 +505,7 @@ Công việc được chia thành 16 hạng mục, mỗi hạng mục chỉ do \
 1 & Thiết kế mạch, sơ đồ nối chân, mạch Wokwi & TV1 & 6\% \\ \hline
 2 & Đọc cảm biến siêu âm và bộ đo mưa trên ESP32 & TV1 & 8\% \\ \hline
 3 & Lõi xử lý C++: lọc nhiễu, phân loại mức ngập, unit test & TV1 & 8\% \\ \hline
-4 & Lắp trạm thật, đóng hộp, bản vẽ phác thảo, hướng dẫn lắp đặt & TV1 & 5\% \\ \hline
+4 & Hoàn thiện trạm trên Wokwi, bản vẽ phác thảo, hướng dẫn chạy mô phỏng & TV1 & 5\% \\ \hline
 5 & Web: bản đồ, danh sách trạm, chi tiết trạm + biểu đồ & TV1 & 6\% \\ \hline
 6 & Kết nối WiFi/MQTT trên ESP32: tự đăng ký, gửi số đo, đệm khi mất mạng & TV2 & 7\% \\ \hline
 7 & Cài đặt và cấu hình ThingsBoard & TV2 & 4\% \\ \hline
@@ -517,7 +517,7 @@ Công việc được chia thành 16 hạng mục, mỗi hạng mục chỉ do \
 13 & Rule chain cảnh báo ngập, mất kết nối; gửi Discord & TV3 & 7\% \\ \hline
 14 & Web: lịch sử alarm, trang quản trị & TV3 & 6\% \\ \hline
 15 & Kiểm thử end-to-end, kịch bản demo & TV3 & 5\% \\ \hline
-16 & Tổng hợp báo cáo PDF, slide, bảng linh kiện có trích dẫn giá & TV3 & 5\% \\ \hline
+16 & Tổng hợp báo cáo PDF, slide, dự toán linh kiện có trích dẫn giá & TV3 & 5\% \\ \hline
 \multicolumn{3}{|r|}{\textbf{Tổng}} & \textbf{100\%} \\ \hline
 \end{longtable}
 
@@ -539,7 +539,7 @@ TV3 -- \TenTVc & \MSSVc & 6 (mục 11--16) & 34\% \\ \hline
 
 \subsection{Tiến độ tổng thể}
 
-Đồ án thực hiện trong 6 tuần, từ 05/11/2026 đến 16/12/2026, theo ba luồng song song ứng với ba lát cắt: đo đạc (TV1), kết nối (TV2), cảnh báo và điều khiển (TV3); cả ba luồng đều có phần việc trên ESP32, trên ThingsBoard/backend và trên web. Mốc tích hợp là cuối tuần 4: trạm thật (hoặc Wokwi) và 50 trạm giả lập cùng hiện trên một bản đồ.
+Đồ án thực hiện trong 6 tuần, từ 05/11/2026 đến 16/12/2026, theo ba luồng song song ứng với ba lát cắt: đo đạc (TV1), kết nối (TV2), cảnh báo và điều khiển (TV3); cả ba luồng đều có phần việc trên ESP32, trên ThingsBoard/backend và trên web. Toàn bộ kế hoạch chỉ gồm việc mô phỏng: không có bước mua linh kiện, hàn mạch hay đóng hộp. Mốc tích hợp là cuối tuần 4: trạm ESP32 trên Wokwi và 50 trạm giả lập cùng hiện trên một bản đồ.
 
 \begin{figure}[H]
 \centering
@@ -555,11 +555,11 @@ TV3 -- \TenTVc & \MSSVc & 6 (mục 11--16) & 34\% \\ \hline
 \begin{tabular}{|C{1.4cm}|C{3.2cm}|L{9.4cm}|}
 \hline
 \rowcolor{rowgray}\textbf{Tuần} & \textbf{Thời gian} & \textbf{Mốc chính} \\ \hline
-1 & 05/11 -- 11/11 & Chốt chức năng, linh kiện; mạch Wokwi; ThingsBoard chạy bằng Docker \\ \hline
+1 & 05/11 -- 11/11 & Chốt chức năng, linh kiện dự kiến; mạch Wokwi; ThingsBoard chạy bằng Docker \\ \hline
 2 & 12/11 -- 18/11 & Lõi xử lý có unit test; đọc được cảm biến siêu âm trên Wokwi \\ \hline
 3 & 19/11 -- 25/11 & Giả lập gửi dữ liệu 1 trạm; đèn, còi, LCD; backend API \\ \hline
-4 & 26/11 -- 02/12 & \textbf{Tích hợp}: ESP32 + 50 trạm giả lập trên bản đồ; rule chain + Discord \\ \hline
-5 & 03/12 -- 09/12 & Lắp trạm thật; trang quản trị; bắt đầu kiểm thử end-to-end \\ \hline
+4 & 26/11 -- 02/12 & \textbf{Tích hợp}: ESP32 trên Wokwi + 50 trạm giả lập trên bản đồ; rule chain + Discord \\ \hline
+5 & 03/12 -- 09/12 & Hoàn thiện trạm Wokwi, bản vẽ phác thảo; trang quản trị; bắt đầu kiểm thử end-to-end \\ \hline
 6 & 10/12 -- 16/12 & Hoàn thiện kiểm thử, tài liệu, báo cáo, slide, video demo \\ \hline
 \end{tabular}
 \end{table}
@@ -580,9 +580,9 @@ Bảng~\ref{tab:plan} lập kế hoạch cho từng hạng mục trong bảng ph
 \rowcolor{rowgray}\textbf{\#} & \textbf{Hạng mục (người)} & \textbf{Các bước thực hiện} & \textbf{Đầu ra} & \textbf{Tiêu chí hoàn thành} & \textbf{Tuần} \\ \hline
 \endhead
 1 & Thiết kế mạch, Wokwi (TV1) & Chọn linh kiện; lập bảng chân GPIO; vẽ sơ đồ khối; dựng mạch 5 khối trên Wokwi & Sơ đồ khối, mạch Wokwi & Mạch Wokwi chạy đúng sơ đồ & 1 \\ \hline
-2 & Driver cảm biến (TV1) & Đọc cảm biến siêu âm; đếm số lần lật gáo mưa; in số đo để kiểm tra & Chương trình đọc 2 cảm biến & Sai số siêu âm $\leq$ 1 cm; đếm đúng số lần lật & 2--3 \\ \hline
+2 & Driver cảm biến (TV1) & Đọc cảm biến siêu âm trên Wokwi; đếm số lần nhấn nút (thay gáo mưa); in số đo để kiểm tra & Chương trình đọc 2 cảm biến & Số đo lệch $\leq$ 1 cm so với khoảng cách đặt trên Wokwi; đếm đúng số lần nhấn & 2--3 \\ \hline
 3 & Lõi xử lý C++ (TV1) & Viết phần lọc nhiễu, phân loại mức ngập, chu kỳ gửi, phát hiện lỗi cảm biến; viết unit test & Thư viện lõi và bộ unit test & Toàn bộ test pass; dùng chung cho ESP32 và giả lập & 1--2 \\ \hline
-4 & Lắp trạm thật, bản vẽ (TV1) & Hàn mạch lên PCB; lắp hộp IP65, ốc siết cáp; đo thử với xô nước; vẽ bản vẽ phác thảo; viết hướng dẫn lắp đặt và hiệu chỉnh chiều cao & Trạm hoàn chỉnh, 2 bản vẽ, tài liệu lắp đặt & Chạy liên tục 24 giờ không treo; người khác lắp lại được & 5--6 \\ \hline
+4 & Trạm Wokwi, bản vẽ (TV1) & Chạy firmware đầy đủ trên Wokwi; thử đủ 4 mức ngập bằng cách chỉnh khoảng cách cảm biến; vẽ bản vẽ phác thảo; viết hướng dẫn chạy mô phỏng & Dự án Wokwi hoàn chỉnh, 2 bản vẽ, hướng dẫn chạy & Chạy liên tục 1 giờ không treo; người khác mở và chạy lại được & 5--6 \\ \hline
 5 & Web bản đồ, chi tiết (TV1) & Bản đồ chấm màu theo mức ngập; danh sách lọc trạm; trang chi tiết có biểu đồ 24 giờ & Giao diện web & Web đổi màu $<$ 2 s sau khi trạm gửi & 3--4 \\ \hline
 6 & MQTT trên ESP32 (TV2) & Kết nối WiFi; tự đăng ký thiết bị; gửi số đo theo chu kỳ; giữ dữ liệu khi mất mạng và gửi bù & Firmware kết nối ThingsBoard & Số đo hiện trên ThingsBoard; mất mạng không mất dữ liệu & 3--4 \\ \hline
 7 & Cài đặt ThingsBoard (TV2) & Cài ThingsBoard bằng Docker; tạo loại thiết bị cho trạm đo, bật tự đăng ký & Server ThingsBoard chạy được & Trạm đăng ký và gửi dữ liệu được & 1 \\ \hline
@@ -594,7 +594,7 @@ Bảng~\ref{tab:plan} lập kế hoạch cho từng hạng mục trong bảng ph
 13 & Rule chain, Discord (TV3) & Cấu hình tạo/xóa cảnh báo ngập, cảnh báo mất kết nối, gửi tin Discord & Cấu hình rule chain & Discord nhận đúng 1 tin mỗi lần ngập & 3--4 \\ \hline
 14 & Web alarm, quản trị (TV3) & Trang lịch sử cảnh báo; đăng nhập; đổi ngưỡng; nút thử/tắt còi & Trang quản trị & Mọi thao tác ghi xuống thiết bị thành công & 4--5 \\ \hline
 15 & Kiểm thử end-to-end (TV3) & Chạy 3 kịch bản (khô, mưa lớn, mưa + triều) và 2 lỗi (mất mạng, hỏng cảm biến); ghi kết quả & Biên bản kiểm thử, kịch bản demo & Mọi kịch bản cho kết quả đúng mong đợi & 5--6 \\ \hline
-16 & Báo cáo, slide, BOM (TV3) & Tra giá và trích dẫn nguồn; gom phần viết của từng thành viên thành báo cáo; làm slide; quay video demo & File PDF và PPTX nộp bài & Đủ các mục theo yêu cầu đồ án & 5--6 \\ \hline
+16 & Báo cáo, slide, dự toán (TV3) & Tra giá linh kiện để dự toán (không mua), trích dẫn nguồn; gom phần viết của từng thành viên thành báo cáo; làm slide; quay video demo & File PDF và PPTX nộp bài & Đủ các mục theo yêu cầu đồ án & 5--6 \\ \hline
 \end{longtable}
 \normalsize\setlength{\tabcolsep}{6pt}
 
@@ -602,7 +602,7 @@ Bảng~\ref{tab:plan} lập kế hoạch cho từng hạng mục trong bảng ph
 \section*{Kết luận}
 \addcontentsline{toc}{section}{Kết luận}
 
-Báo cáo trình bày kế hoạch xây dựng FloodSense HCM, một hệ thống IoT cho bài toán ngập đô thị gồm: trạm đo tự cảnh báo tại chỗ kể cả khi mất mạng; nền tảng ThingsBoard lưu dữ liệu, tạo cảnh báo và gửi tin Discord; trang web bản đồ thời gian thực cho người dân và trang quản trị cho người vận hành; cùng công cụ giả lập khoảng 50 trạm để kiểm thử. Chi phí dự kiến khoảng 1,6 triệu đồng một trạm. Nhóm sẽ thực hiện trong 6 tuần theo phân công và kế hoạch ở Mục~\ref{sec:plan}.
+Báo cáo trình bày kế hoạch xây dựng FloodSense HCM, một hệ thống IoT cho bài toán ngập đô thị gồm: trạm đo tự cảnh báo tại chỗ kể cả khi mất mạng; nền tảng ThingsBoard lưu dữ liệu, tạo cảnh báo và gửi tin Discord; trang web bản đồ thời gian thực cho người dân và trang quản trị cho người vận hành; cùng công cụ giả lập khoảng 50 trạm để kiểm thử. Đồ án chỉ thực hiện trên mô phỏng (Wokwi và công cụ giả lập); nếu triển khai thật, chi phí dự kiến khoảng 1,6 triệu đồng một trạm. Nhóm sẽ thực hiện trong 6 tuần theo phân công và kế hoạch ở Mục~\ref{sec:plan}.
 
 % ======================================================================
 \begin{thebibliography}{99}

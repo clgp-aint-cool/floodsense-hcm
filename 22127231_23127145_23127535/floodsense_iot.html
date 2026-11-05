@@ -2363,10 +2363,10 @@
           <g>
             <rect x="20" y="70" width="330" height="120" rx="14" fill="var(--panel)" stroke="var(--a1)" />
             <text x="40" y="104" font-size="22">📟</text>
-            <text x="76" y="102" font-size="17" font-weight="800" fill="var(--ink)">Trạm thật · ESP32</text>
+            <text x="76" y="102" font-size="17" font-weight="800" fill="var(--ink)">Trạm ESP32 · Wokwi</text>
             <text x="40" y="132" font-size="13" fill="var(--ink2)">JSN-SR04T · rain gauge gáo lật</text>
             <text x="40" y="154" font-size="13" fill="var(--ink2)">LCD · đèn 3 màu · còi</text>
-            <text x="40" y="176" font-family="JetBrains Mono" font-size="11" fill="var(--ink3)">chạy thử trước trên Wokwi</text>
+            <text x="40" y="176" font-family="JetBrains Mono" font-size="11" fill="var(--ink3)">mô phỏng, không chế tạo trạm thật</text>
           </g>
           <g>
             <rect x="20" y="220" width="330" height="140" rx="14" fill="var(--panel)" stroke="var(--ok)" />
@@ -3022,7 +3022,7 @@ R= 0mm WiFi</div>
           <div class="card tok rv" style="margin-top:6px;">
             <div class="ctitle cok">🖥️ Chạy thử không cần server</div>
             <p class="sm just">Chương trình có thể chỉ in số đo ra màn hình để kiểm tra nhanh trước khi kết nối
-              ThingsBoard. Song song đó, mạch trạm thật được dựng trên Wokwi để chạy thử trước khi mua linh kiện.</p>
+              ThingsBoard. Song song đó, mạch trạm được dựng trên Wokwi thay cho trạm thật (HC-SR04 thay JSN-SR04T, nút bấm thay gáo mưa).</p>
           </div>
         </div>
       </div>
@@ -3315,8 +3315,8 @@ R= 0mm WiFi</div>
           </tbody>
         </table>
         <p class="mini" style="margin-top:8px;">Tiết kiệm: thay rain gauge DFRobot bằng module cảm biến mưa dạng tấm (~20.000 ₫) thì
-          tổng còn ≈ 825.000 ₫, nhưng chỉ biết "có mưa / không mưa", không đo được mm. Giai đoạn đầu chạy thử trên Wokwi và
-          chương trình giả lập nên chưa cần mua linh kiện.</p>
+          tổng còn ≈ 825.000 ₫, nhưng chỉ biết "có mưa / không mưa", không đo được mm. Đồ án chỉ chạy trên Wokwi và
+          chương trình giả lập nên không mua linh kiện; bảng này là dự toán khi triển khai thật.</p>
       </div>
     </div>
 
@@ -3349,7 +3349,7 @@ R= 0mm WiFi</div>
             data-f="m2.name"></span></span></div>
       <h2 class="rv">6 tuần · <span class="hl">05/11 → 16/12/2026</span></h2>
       <p class="sub rv">Ba luồng song song ứng với ba lát cắt: đo đạc (TV1), kết nối (TV2), cảnh báo và điều khiển (TV3).
-        Mốc tích hợp cuối tuần 4: trạm thật và 50 trạm giả lập cùng hiện trên một bản đồ.</p>
+        Chỉ mô phỏng, không chế tạo trạm thật. Mốc tích hợp cuối tuần 4: trạm Wokwi và 50 trạm giả lập cùng hiện trên một bản đồ.</p>
       <div class="gantt rv" style="--i:2;row-gap:9px;margin-top:10px;" id="gantt"></div>
     </div>
 
@@ -3555,7 +3555,7 @@ R= 0mm WiFi</div>
       ['Thiết kế mạch, sơ đồ nối chân, mạch Wokwi', 1, 6],
       ['Đọc cảm biến siêu âm và bộ đo mưa trên ESP32', 1, 8],
       ['Lõi xử lý C++: lọc nhiễu, phân loại mức ngập, unit test', 1, 8],
-      ['Lắp trạm thật, đóng hộp, bản vẽ phác thảo, hướng dẫn lắp đặt', 1, 5],
+      ['Hoàn thiện trạm trên Wokwi, bản vẽ phác thảo, hướng dẫn chạy mô phỏng', 1, 5],
       ['Web: bản đồ, danh sách trạm, chi tiết trạm + biểu đồ', 1, 6],
       ['Kết nối WiFi/MQTT trên ESP32: tự đăng ký, gửi số đo, đệm khi mất mạng', 2, 7],
       ['Cài đặt và cấu hình ThingsBoard', 2, 4],
@@ -3567,7 +3567,7 @@ R= 0mm WiFi</div>
       ['Rule chain cảnh báo ngập, mất kết nối; gửi Discord', 3, 7],
       ['Web: lịch sử alarm, trang quản trị', 3, 6],
       ['Kiểm thử end-to-end, kịch bản demo', 3, 5],
-      ['Tổng hợp báo cáo PDF, slide, bảng linh kiện có trích dẫn giá', 3, 5],
+      ['Tổng hợp báo cáo PDF, slide, dự toán linh kiện có trích dẫn giá', 3, 5],
     ];
     const MCOL = ['', 'var(--a1)', 'var(--ok)', 'var(--a3)'];
     const mname = i => TEAM['m' + i].name;
@@ -3595,11 +3595,11 @@ R= 0mm WiFi</div>
       ['Thiết kế mạch, Wokwi', 'sơ đồ khối, bảng chân', 1, 1, 1,
         'Chọn linh kiện; lập bảng chân GPIO; vẽ sơ đồ khối; dựng mạch 5 khối trên Wokwi', 'Sơ đồ khối, mạch Wokwi', 'Mạch Wokwi chạy đúng sơ đồ'],
       ['Driver cảm biến', 'siêu âm, bộ đo mưa', 2, 3, 1,
-        'Đọc cảm biến siêu âm; đếm số lần lật gáo mưa; in số đo để kiểm tra', 'Chương trình đọc 2 cảm biến', 'Sai số siêu âm ≤ 1 cm; đếm đúng số lần lật'],
+        'Đọc cảm biến siêu âm trên Wokwi; đếm số lần nhấn nút (thay gáo mưa); in số đo để kiểm tra', 'Chương trình đọc 2 cảm biến', 'Lệch ≤ 1 cm so với khoảng cách đặt trên Wokwi; đếm đúng số lần nhấn'],
       ['Lõi xử lý C++', 'lọc nhiễu, phân loại, test', 1, 2, 1,
         'Lọc nhiễu, phân loại mức ngập, chu kỳ gửi, phát hiện lỗi cảm biến; unit test', 'Thư viện lõi + unit test', 'Test pass; dùng chung cho ESP32 và giả lập'],
-      ['Lắp trạm thật, bản vẽ', 'hàn, đóng hộp, đo thử', 5, 6, 1,
-        'Hàn mạch lên PCB; lắp hộp IP65; đo thử với xô nước; vẽ phác thảo; viết hướng dẫn lắp đặt', 'Trạm hoàn chỉnh, 2 bản vẽ, tài liệu lắp đặt', 'Chạy 24 giờ không treo; người khác lắp lại được'],
+      ['Trạm Wokwi, bản vẽ', 'firmware đầy đủ, 4 mức ngập', 5, 6, 1,
+        'Chạy firmware đầy đủ trên Wokwi; thử 4 mức ngập bằng cách chỉnh khoảng cách cảm biến; vẽ phác thảo; viết hướng dẫn chạy mô phỏng', 'Dự án Wokwi hoàn chỉnh, 2 bản vẽ, hướng dẫn chạy', 'Chạy 1 giờ không treo; người khác mở và chạy lại được'],
       ['Web bản đồ, chi tiết', 'bản đồ, danh sách, biểu đồ', 3, 4, 1,
         'Bản đồ chấm màu theo mức ngập; danh sách lọc trạm; trang chi tiết có biểu đồ 24 giờ', 'Giao diện web', 'Web đổi màu &lt; 2 s sau khi trạm gửi'],
       ['MQTT trên ESP32', 'WiFi, tự đăng ký, gửi bù', 3, 4, 2,
@@ -3622,8 +3622,8 @@ R= 0mm WiFi</div>
         'Trang lịch sử cảnh báo; đăng nhập; đổi ngưỡng; nút thử/tắt còi', 'Trang quản trị', 'Mọi thao tác ghi xuống thiết bị thành công'],
       ['Kiểm thử end-to-end', '3 kịch bản + 2 lỗi', 5, 6, 3,
         'Chạy 3 kịch bản (khô, mưa lớn, mưa + triều) và 2 lỗi (mất mạng, hỏng cảm biến); ghi kết quả', 'Biên bản kiểm thử, kịch bản demo', 'Mọi kịch bản cho kết quả đúng mong đợi'],
-      ['Báo cáo, slide, BOM', 'trích dẫn giá, video', 5, 6, 3,
-        'Tra giá, trích dẫn nguồn; gom phần viết thành báo cáo; làm slide; quay video demo', 'File PDF và PPTX nộp bài', 'Đủ các mục theo yêu cầu đồ án'],
+      ['Báo cáo, slide, dự toán', 'trích dẫn giá, video', 5, 6, 3,
+        'Tra giá để dự toán (không mua), trích dẫn nguồn; gom phần viết thành báo cáo; làm slide; quay video demo', 'File PDF và PPTX nộp bài', 'Đủ các mục theo yêu cầu đồ án'],
     ];
     (function gantt() {
       const g = document.getElementById('gantt');
