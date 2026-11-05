@@ -5,8 +5,6 @@ from unittest.mock import patch
 import httpx
 from app.config import settings
 from app.services.thingsboard_service import ThingsBoardService
-from app.services.weather_service import WeatherService
-from app.services.tide_service import TideService
 
 
 class TelemetryTests(unittest.IsolatedAsyncioTestCase):
@@ -21,7 +19,7 @@ class TelemetryTests(unittest.IsolatedAsyncioTestCase):
 
     def reading(self, age=0, water='42', **extra):
         ts = int(time.time() * 1000) - age * 1000
-        values = {'parent_id': 'road-01', 'segment_idx': '0', 'water_level_cm': water, **extra}
+        values = {'device_id': 'VN-HCM-001', 'water_level_cm': water, **extra}
         return {key: [{'ts': ts, 'value': value}] for key, value in values.items()}
 
     async def test_all_pages_and_newest_device_win(self):
@@ -31,11 +29,12 @@ class TelemetryTests(unittest.IsolatedAsyncioTestCase):
                 page = int(request.url.params['page']); pages.append(page)
                 name = 'new' if page == 0 else 'old'
                 return httpx.Response(200, json={'data': [{'id': {'id': name}, 'name': name}], 'hasNext': page == 0})
-            return httpx.Response(200, json=self.reading(age=120 if '/old/' in request.url.path else 0))
+            return httpx.Response(200, json=self.reading(age=60 if '/old/' in request.url.path else 0))
         service = await self.service(handler)
         devices, error = await service.get_snapshot()
         self.assertEqual(pages, [0, 1])
-        self.assertEqual(devices[0].device_id, 'new')
+        self.assertEqual(devices[0].device_id, 'VN-HCM-001')
+        self.assertEqual(devices[0].water_level_cm, 42)
         self.assertEqual(devices[0].status, 'WARNING')
         self.assertIsNone(error)
         self.assertEqual(service.get_city_summary(devices).total_active_devices, 1)
@@ -50,11 +49,9 @@ class TelemetryTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(error)
         self.assertTrue(all(d.status == 'OFFLINE' and d.water_level_cm is None and d.error for d in devices))
         self.assertIsNone(service.get_city_summary(devices).avg_water_level_cm)
-        self.assertTrue(all(r.max_water_cm is None for r in service.get_flooded_roads(devices)))
-        self.assertTrue(all(n.water_level_cm is None and n.error for z in service.get_flood_zones(devices) for n in z.nodes))
 
     async def test_stale_water_is_not_revived_by_fresh_other_keys(self):
-        data = self.reading(age=120)
+        data = self.reading(age=150)
         data['temperature_c'] = [{'ts': int(time.time()*1000), 'value': '30'}]
         def handler(request):
             if '/tenant/devices' in request.url.path:
@@ -67,9 +64,13 @@ class TelemetryTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(error)
 
     async def test_unmapped_device_never_assigned_by_list_position(self):
-        self.assertIsNone(ThingsBoardService._station_index({}, 'HCM_Vehicle_old_451'))
-        self.assertEqual(ThingsBoardService._station_index({}, 'VN-HCM-050'), 49)
-        self.assertEqual(ThingsBoardService._station_index({}, 'HCM_Vehicle_old_05'), 4)
+        service = ThingsBoardService()
+        self.addAsyncCleanup(service.tb_client.aclose)
+        self.assertEqual(len(service.stations), 50)
+        self.assertIsNone(service._station_index({}, 'some_other_device'))
+        self.assertEqual(service._station_index({}, 'VN-HCM-050'), 49)
+        data = {'device_id': [{'ts': 1, 'value': 'VN-HCM-005'}]}
+        self.assertEqual(service._station_index(data, 'anything'), 4)
 
     async def test_expired_jwt_reauth_once(self):
         calls = []
@@ -105,24 +106,5 @@ class TelemetryTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn('tài khoản', error)
         self.assertIsNone(devices[0].water_level_cm)
 
-    async def test_tides_have_full_hcm_stations(self):
-        tides = await TideService.get_tide_data()
-        self.assertEqual(len(tides), 10)
-        self.assertIsNone(TideService.unavailable_reason)
-
-    async def test_weather_failure_has_no_baseline(self):
-        WeatherService._cached = None
-        WeatherService._expires = 0
-        class BrokenClient:
-            async def __aenter__(self): return self
-            async def __aexit__(self, *args): pass
-            async def get(self, *args, **kwargs): raise httpx.ConnectError('offline')
-        with patch('app.services.weather_service.httpx.AsyncClient', return_value=BrokenClient()):
-            weather = await WeatherService.get_current_weather()
-        self.assertTrue(weather['error'])
-        self.assertIsNone(weather['temperature_c'])
-        self.assertIsNone(weather['rainfall_mm'])
-        WeatherService._cached = None
-        WeatherService._expires = 0
 
 if __name__ == '__main__': unittest.main()

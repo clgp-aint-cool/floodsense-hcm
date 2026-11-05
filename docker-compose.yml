@@ -22,6 +22,9 @@ services:
       THINGSBOARD_URL: http://thingsboard:9090
       THINGSBOARD_USERNAME: ${TB_TENANT_USER:-tenant@thingsboard.org}
       THINGSBOARD_PASSWORD: ${TB_TENANT_PASSWORD:-tenant}
+      STATIONS_FILE: /app/stations.json
+    volumes:
+      - ./device-sim/config/stations.json:/app/stations.json:ro   # dùng chung danh sách trạm với device-sim
     ports:
       - "8000:8000"
     depends_on:

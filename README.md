@@ -28,14 +28,15 @@ device-sim (50 trạm C++) ──┘              │
 |---|---|
 | `core/` | Lõi xử lý C++17 dùng chung cho firmware và giả lập: lọc nhiễu, phân loại mức ngập, máy trạng thái của trạm. Không phụ thuộc Arduino hay MQTT. |
 | `firmware/` | Firmware ESP32 (PlatformIO, Arduino): đọc cảm biến, LCD, còi/đèn, kết nối ThingsBoard qua MQTT. Có `diagram.json` và `wokwi.toml` để chạy trên Wokwi. |
-| `device-sim/` | Giả lập nhiều trạm bằng C++: mô hình mưa và triều, kịch bản CSV, tạo lỗi có chủ đích (mất mạng, hỏng cảm biến). |
+| `device-sim/` | Giả lập nhiều trạm bằng C++: mô hình mưa và triều, kịch bản CSV, tạo lỗi có chủ đích (mất mạng, hỏng cảm biến). Danh sách 50 trạm nằm trong `config/stations.json`. |
 | `rule-chains/` | Rule chain ThingsBoard (JSON để import) cảnh báo ngập và mất kết nối qua Discord, kèm script Python để thử webhook. |
-| `backend/` | API FastAPI tổng hợp dữ liệu từ ThingsBoard, thời tiết (Open-Meteo / MET Norway) và triều; có REST và WebSocket `/ws/live`. |
-| `frontend/` | Web bản đồ React + Vite + Leaflet: vị trí trạm, mức ngập, biểu đồ triều. |
+| `backend/` | API FastAPI đọc số đo mới nhất của các trạm từ ThingsBoard, đánh dấu trạm mất kết nối quá 2 phút; có REST và WebSocket `/ws/live`. Danh sách trạm lấy chung từ `device-sim/config/stations.json`. |
+| `frontend/` | Web bản đồ React + Vite + Leaflet: vị trí và mức ngập từng trạm, danh sách trạm xếp theo mực nước. |
 | `tools/` | `make_scenario.py`: sinh kịch bản mưa/triều từ dữ liệu thật cho device-sim. |
-| `docs/` | Định hướng, kế hoạch, luồng hệ thống, hướng dẫn kiểm thử. |
+| `docs/` | Định hướng và kế hoạch thực hiện. |
 | `report/` | Báo cáo LaTeX (XeLaTeX) và bản PDF. |
-| `slide/`, `demo/` | Slide HTML và trang demo mô phỏng hoạt động của trạm. |
+| `demo/` | Trang HTML mô phỏng hoạt động của một trạm. |
+| `22127231_23127145_23127535/` | Bài nộp: slide thuyết trình (HTML) và báo cáo PDF. |
 
 ## Khởi chạy
 

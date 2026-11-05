@@ -60,112 +60,10 @@ body, html {
   transform: translateY(-2px);
 }
 
-/* Glowing Radar Marker Styles */
-.radar-marker {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.radar-core {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  z-index: 2;
-  box-shadow: 0 0 12px currentColor;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.radar-marker:hover .radar-core {
-  transform: scale(1.4);
-}
-
-.radar-wave {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.7;
-  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-  z-index: 1;
-}
-
 @keyframes radar-ping {
   75%, 100% {
     transform: scale(2.8);
     opacity: 0;
-  }
-}
-
-/* Severity Theme Classes */
-.theme-safe {
-  color: var(--accent-safe);
-}
-.theme-alert {
-  color: var(--accent-alert);
-}
-.theme-critical {
-  color: var(--accent-critical);
-}
-
-/* Flood Buffer Zone Animated Ripples */
-.flood-pulse-zone {
-  animation: flood-pulse-wave 3s ease-in-out infinite;
-}
-
-.flood-core-zone {
-  filter: drop-shadow(0 0 8px currentColor);
-}
-
-@keyframes flood-pulse-wave {
-  0% {
-    stroke-opacity: 0.9;
-    fill-opacity: 0.25;
-  }
-  50% {
-    stroke-opacity: 0.35;
-    fill-opacity: 0.08;
-  }
-  100% {
-    stroke-opacity: 0.9;
-    fill-opacity: 0.25;
-  }
-}
-
-/* Real-time Water Flow Streamlines & Ripples */
-.flow-streamline {
-  stroke-dasharray: 8, 6;
-  animation: flow-stream-dash 1.4s linear infinite;
-  filter: drop-shadow(0 0 6px currentColor);
-}
-
-@keyframes flow-stream-dash {
-  to {
-    stroke-dashoffset: -32;
-  }
-}
-
-.water-ripple-wave {
-  animation: water-ripple-anim 2.5s cubic-bezier(0.1, 0.45, 0.1, 1) infinite;
-}
-
-@keyframes water-ripple-anim {
-  0% {
-    stroke-opacity: 0.9;
-    fill-opacity: 0.28;
-  }
-  50% {
-    stroke-opacity: 0.45;
-    fill-opacity: 0.12;
-  }
-  100% {
-    stroke-opacity: 0;
-    fill-opacity: 0;
   }
 }
 
@@ -233,69 +131,9 @@ body, html {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Neon Flooded Road Polylines & Nodes */
-.neon-road-halo {
-  filter: blur(5px);
-  pointer-events: none;
-}
-
-.neon-road-line {
-  filter: drop-shadow(0 0 6px currentColor);
-  cursor: pointer;
-  transition: stroke-width 0.2s ease, opacity 0.2s ease;
-}
-
-.neon-road-line:hover {
-  stroke-width: 10px !important;
-  opacity: 1 !important;
-}
-
-.neon-road-pulse {
-  animation: neon-road-glow 2s ease-in-out infinite;
-}
-
-@keyframes neon-road-glow {
-  0%, 100% {
-    stroke-opacity: 0.95;
-    filter: drop-shadow(0 0 6px #ff0055);
-  }
-  50% {
-    stroke-opacity: 0.7;
-    filter: drop-shadow(0 0 14px #ff0055);
-  }
-}
-
 .custom-road-node-icon {
   background: transparent;
   border: none;
-}
-
-/* Flood Zones (Area Polygons) */
-.flood-zone-boundary {
-  filter: drop-shadow(0 0 8px currentColor);
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.flood-zone-boundary:hover {
-  stroke-width: 4px !important;
-  fill-opacity: 0.28 !important;
-}
-
-.flood-zone-core {
-  animation: flood-zone-pulse 2.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-@keyframes flood-zone-pulse {
-  0%, 100% {
-    fill-opacity: 0.42;
-    stroke-opacity: 0.95;
-  }
-  50% {
-    fill-opacity: 0.18;
-    stroke-opacity: 0.45;
-  }
 }
 
 /* ─── Realtime Indicator & Telemetry Animations ─── */
@@ -304,32 +142,3 @@ body, html {
   letter-spacing: -0.02em;
 }
 
-@keyframes live-beacon {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  }
-  70% {
-    transform: scale(1.15);
-    box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-  }
-}
-
-.beacon-pulse {
-  animation: live-beacon 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes stream-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.realtime-shimmer {
-  background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, rgba(56, 189, 248, 0.35) 50%, rgba(56, 189, 248, 0.1) 100%);
-  background-size: 200% 100%;
-  animation: stream-shimmer 2.5s infinite;
-}

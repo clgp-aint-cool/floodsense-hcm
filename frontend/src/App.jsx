@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FloodMap from './components/FloodMap';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
-const INITIAL_DATA = {
-  timestamp: null, summary: null, tides: [], severe_locations: [],
-  devices: [], roads: [], zones: [], weather: null, errors: {}
-};
+const INITIAL_DATA = { timestamp: null, summary: null, devices: [], errors: {} };
 
 export default function App() {
   const [data, setData] = useState(INITIAL_DATA);
@@ -107,36 +104,20 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      {/* Fullscreen Map (Chỉ hiển thị TP.HCM, phân loại Đường vs Khu vực ngập) */}
-      <FloodMap 
-        devices={data.devices} 
-        severeLocations={data.severe_locations} 
-        roads={data.roads || []}
-        zones={data.zones || []}
-        selectedLocation={selectedLocation}
-      />
-
-      {/* Floating Glassmorphism Sidebar (Dự báo Triều cường + Cảnh báo Đường/Khu vực + IoT Realtime Summary) */}
-      <Sidebar 
-        tides={data.tides} 
-        severeLocations={data.severe_locations} 
-        roads={data.roads || []}
-        zones={data.zones || []}
+      <FloodMap devices={data.devices} selectedLocation={selectedLocation} />
+      <Sidebar
+        devices={data.devices}
         summary={data.summary}
-        weather={data.weather}
         isPinging={isPinging}
         wsStatus={wsStatus}
         errors={data.errors}
         connectionError={connectionError}
-        onSelectLocation={(loc) => setSelectedLocation(loc)}
+        onSelectLocation={setSelectedLocation}
       />
-
-      {/* Floating Top Bar (Mực nước TB, Thời tiết & Clock) */}
-      <TopBar 
-        weather={data.weather} 
+      <TopBar
         isPinging={isPinging}
         avgWater={data.summary?.avg_water_level_cm}
-        weatherError={connectionError || data.errors?.weather}
+        avgRain={data.summary?.avg_rainfall_mm_h}
       />
     </div>
   );
